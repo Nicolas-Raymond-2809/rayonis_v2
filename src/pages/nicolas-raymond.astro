@@ -1,114 +1,207 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Marquee from '../components/Marquee.astro';
-import SanwaButton from '../components/SanwaButton.astro';
+import Layout from "../layouts/Layout.astro";
+import Marquee from "../components/Marquee.astro";
+import SanwaButton from "../components/SanwaButton.astro";
 ---
 
-<Layout 
+<Layout
   title="Nicolas Raymond | L'Intention au Centre du Projet"
   description="Architecte de Solutions Digitales & Référent Pédagogique. Créer le futur des entreprises et éveiller les créateurs de demain."
 >
-  <main class="relative pt-20 pb-32 px-4 md:px-8 max-w-7xl mx-auto overflow-x-hidden">
-    
+  <main
+    class="relative pt-20 pb-32 px-4 md:px-8 max-w-7xl mx-auto overflow-x-hidden"
+  >
     <!-- SECTION 1: HERO -->
     <header class="mb-32 relative">
-      <div class="inline-block bg-main text-black px-4 py-1 font-black text-xs uppercase italic mb-6">
+      <div
+        class="inline-block bg-main text-black px-4 py-1 font-black text-xs uppercase italic mb-6"
+      >
         Profil Architecte : SYSTEM-ADMIN
       </div>
-      <h1 class="text-5xl md:text-8xl font-black text-white uppercase tracking-tighter leading-none mb-4 italic">
-        Nicolas Raymond <br/>
-        <span class="text-main">— L'intention</span> <br/>
+      <h1
+        class="text-5xl md:text-8xl font-black text-white uppercase tracking-tighter leading-none mb-4 italic"
+      >
+        Nicolas Raymond <br />
+        <span class="text-main">— L'intention</span>
+        <br />
         au centre du projet.
       </h1>
-      <h2 class="text-xl md:text-3xl font-black text-secondary/60 uppercase italic tracking-widest mb-12">
+      <h2
+        class="text-xl md:text-3xl font-black text-secondary/60 uppercase italic tracking-widest mb-12"
+      >
         Architecte de Solutions Digitales & Référent Pédagogique.
       </h2>
-      
+
       <div class="relative inline-block">
-        <div class="absolute -inset-4 bg-magenta/20 blur-2xl rounded-full"></div>
-        <p class="relative text-2xl md:text-4xl font-black text-white leading-tight max-w-3xl border-l-8 border-magenta pl-8">
-           "Je ne construis pas des maisons, je construis le futur des entreprises et j'éveille les créateurs de demain."
+        <div class="absolute -inset-4 bg-magenta/20 blur-2xl rounded-full">
+        </div>
+        <p
+          class="relative text-2xl md:text-4xl font-black text-white leading-tight max-w-3xl border-l-8 border-magenta pl-8"
+        >
+          "Je ne construis pas des maisons, je construis le futur des
+          entreprises et j'éveille les créateurs de demain."
         </p>
       </div>
     </header>
 
-    <Marquee text="CREER PLUTÔT QUE CONSOMMER • LA BOUSSOLE PAS LA BÉQUILLE • L'ARCHITECTURE AVANT LA DECORATION •" />
+    <Marquee
+      text="CREER PLUTÔT QUE CONSOMMER • LA BOUSSOLE PAS LA BÉQUILLE • L'ARCHITECTURE AVANT LA DECORATION •"
+    />
 
     <!-- SECTION 2: LE MANIFESTE -->
     <section class="mt-40 mb-40">
       <div class="flex items-center gap-4 mb-16">
-        <h2 class="text-4xl font-black text-white uppercase italic tracking-tighter">Ce en quoi je crois_</h2>
-        <div class="flex-grow h-1 bg-gradient-to-r from-main to-transparent"></div>
+        <h2
+          class="text-4xl font-black text-white uppercase italic tracking-tighter"
+        >
+          Ce en quoi je crois_
+        </h2>
+        <div class="flex-grow h-1 bg-gradient-to-r from-main to-transparent">
+        </div>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
         <!--  BELIEF 1 -->
-        <div class="group bg-[#0d0618] border-4 border-magenta p-8 shadow-brutal-magenta transition-all hover:translate-y-[-10px]">
-           <div class="text-4xl font-black text-magenta mb-6 opacity-40 group-hover:opacity-100 transition-opacity">01</div>
-           <h3 class="text-2xl font-black text-white uppercase mb-4 tracking-tight">Créer plutôt que consommer</h3>
-           <p class="text-secondary/80 font-bold leading-relaxed mb-6">
-             "L'ère numérique ne doit pas fabriquer des spectateurs passifs. Ma mission avec la Rayonis Academy est claire : ne soyez pas juste des consommateurs d'écrans (TikTok, Insta), devenez des <span class="text-magenta">Créateurs</span>."
-           </p>
-           <p class="text-xs font-bold text-secondary/40 border-t border-white/10 pt-4 uppercase tracking-widest">
-             Pédagogie STIAM • Innovation • Design
-           </p>
+        <div
+          class="group bg-[#0d0618] border-4 border-magenta p-8 shadow-brutal-magenta transition-all hover:translate-y-[-10px]"
+        >
+          <div
+            class="text-4xl font-black text-magenta mb-6 opacity-40 group-hover:opacity-100 transition-opacity"
+          >
+            01
+          </div>
+          <h3
+            class="text-2xl font-black text-white uppercase mb-4 tracking-tight"
+          >
+            Créer plutôt que consommer
+          </h3>
+          <p class="text-secondary/80 font-bold leading-relaxed mb-6">
+            "L'ère numérique ne doit pas fabriquer des spectateurs passifs. Ma
+            mission avec la Rayonis Academy est claire : ne soyez pas juste des
+            consommateurs d'écrans (TikTok, Insta), devenez des <span
+              class="text-magenta">Créateurs</span
+            >."
+          </p>
+          <p
+            class="text-xs font-bold text-secondary/40 border-t border-white/10 pt-4 uppercase tracking-widest"
+          >
+            Pédagogie STIAM • Innovation • Design
+          </p>
         </div>
 
         <!-- BELIEF 2 -->
-        <div class="group bg-[#0d0618] border-4 border-main p-8 shadow-brutal-main transition-all hover:translate-y-[-10px]">
-           <div class="text-4xl font-black text-main mb-6 opacity-40 group-hover:opacity-100 transition-opacity">02</div>
-           <h3 class="text-2xl font-black text-white uppercase mb-4 tracking-tight">La Boussole, pas la Béquille</h3>
-           <p class="text-secondary/80 font-bold leading-relaxed mb-6">
-             "L'IA est déjà là. La question est de choisir son rôle : sera-t-elle une béquille qui atrophie nos capacités, ou une boussole qui nous oriente ? Je milite pour une IA qui augmente l'humain."
-           </p>
-           <p class="text-xs font-bold text-secondary/40 border-t border-white/10 pt-4 uppercase tracking-widest">
-             Vibe Coding • IA Augmentée • Intention
-           </p>
+        <div
+          class="group bg-[#0d0618] border-4 border-main p-8 shadow-brutal-main transition-all hover:translate-y-[-10px]"
+        >
+          <div
+            class="text-4xl font-black text-main mb-6 opacity-40 group-hover:opacity-100 transition-opacity"
+          >
+            02
+          </div>
+          <h3
+            class="text-2xl font-black text-white uppercase mb-4 tracking-tight"
+          >
+            La Boussole, pas la Béquille
+          </h3>
+          <p class="text-secondary/80 font-bold leading-relaxed mb-6">
+            "L'IA est déjà là. La question est de choisir son rôle : sera-t-elle
+            une béquille qui atrophie nos capacités, ou une boussole qui nous
+            oriente ? Je milite pour une IA qui augmente l'humain."
+          </p>
+          <p
+            class="text-xs font-bold text-secondary/40 border-t border-white/10 pt-4 uppercase tracking-widest"
+          >
+            Vibe Coding • IA Augmentée • Intention
+          </p>
         </div>
 
         <!-- BELIEF 3 -->
-        <div class="group bg-[#0d0618] border-4 border-alert p-8 shadow-brutal-alert transition-all hover:translate-y-[-10px]">
-           <div class="text-4xl font-black text-alert mb-6 opacity-40 group-hover:opacity-100 transition-opacity">03</div>
-           <h3 class="text-2xl font-black text-white uppercase mb-4 tracking-tight">L'Architecture avant la décoration</h3>
-           <p class="text-secondary/80 font-bold leading-relaxed mb-6">
-             "Inutile de peindre les murs si les fondations s'écroulent. Je refuse le 'bricolage numérique'. Mon approche est structurelle : auditer, sécuriser, organiser, puis automatiser."
-           </p>
-           <p class="text-xs font-bold text-secondary/40 border-t border-white/10 pt-4 uppercase tracking-widest">
-             Audit SEO • Automatisation • n8n
-           </p>
+        <div
+          class="group bg-[#0d0618] border-4 border-alert p-8 shadow-brutal-alert transition-all hover:translate-y-[-10px]"
+        >
+          <div
+            class="text-4xl font-black text-alert mb-6 opacity-40 group-hover:opacity-100 transition-opacity"
+          >
+            03
+          </div>
+          <h3
+            class="text-2xl font-black text-white uppercase mb-4 tracking-tight"
+          >
+            L'Architecture avant la décoration
+          </h3>
+          <p class="text-secondary/80 font-bold leading-relaxed mb-6">
+            "Inutile de peindre les murs si les fondations s'écroulent. Je
+            refuse le 'bricolage numérique'. Mon approche est structurelle :
+            auditer, sécuriser, organiser, puis automatiser."
+          </p>
+          <p
+            class="text-xs font-bold text-secondary/40 border-t border-white/10 pt-4 uppercase tracking-widest"
+          >
+            Audit SEO • Automatisation • n8n
+          </p>
         </div>
       </div>
     </section>
 
     <!-- SECTION 3: LA DOUBLE CASQUETTE -->
     <section class="mb-40">
-      <div class="bg-[#050505] border-x-4 border-white/10 p-10 md:p-20 relative overflow-hidden">
-        <div class="absolute top-0 right-0 p-4 font-mono text-[8px] text-white/10 leading-tight">
-          ID: NR-831-ARCHITECT<br/>
-          LOC: PARIS-HQ<br/>
+      <div
+        class="bg-[#050505] border-x-4 border-white/10 p-10 md:p-20 relative overflow-hidden"
+      >
+        <div
+          class="absolute top-0 right-0 p-4 font-mono text-[8px] text-white/10 leading-tight"
+        >
+          ID: NR-831-ARCHITECT<br />
+          LOC: PARIS-HQ<br />
           STATUS: ACTIVE
         </div>
 
-        <h2 class="text-5xl md:text-7xl font-black text-white uppercase italic tracking-tighter mb-16 text-center">Un profil hybride</h2>
-        
+        <h2
+          class="text-5xl md:text-7xl font-black text-white uppercase italic tracking-tighter mb-16 text-center"
+        >
+          Un profil hybride
+        </h2>
+
         <div class="grid grid-cols-1 md:grid-cols-2 gap-20">
           <div class="relative">
-             <div class="text-[120px] font-black text-main/5 absolute -top-10 -left-10 italic">CONS.</div>
-             <h3 class="text-3xl font-black text-main uppercase mb-6 flex items-center gap-4">
-                <span class="w-8 h-1 bg-main"></span> Consultant IA & G-SEO
-             </h3>
-             <p class="text-xl font-bold text-secondary/70 leading-relaxed italic">
-               "J'accompagne les TPE/PME dans leur transformation numérique. De l'audit SEO technique à l'automatisation de workflows (n8n), je mets les mains dans le code et les données. J'ai d'ailleurs forgé ma rigueur analytique en tant qu'Assistant de Recherche à l'ICM Paris."
-             </p>
+            <div
+              class="text-[120px] font-black text-main/5 absolute -top-10 -left-10 italic"
+            >
+              CONS.
+            </div>
+            <h3
+              class="text-3xl font-black text-main uppercase mb-6 flex items-center gap-4"
+            >
+              <span class="w-8 h-1 bg-main"></span> Consultant IA & G-SEO
+            </h3>
+            <p
+              class="text-xl font-bold text-secondary/70 leading-relaxed italic"
+            >
+              "J'accompagne les TPE/PME dans leur transformation numérique. De
+              l'audit SEO technique à l'automatisation de workflows (n8n), je
+              mets les mains dans le code et les données. J'ai d'ailleurs forgé
+              ma rigueur analytique en tant qu'Assistant de Recherche à l'ICM
+              Paris."
+            </p>
           </div>
           <div class="relative">
-             <div class="text-[120px] font-black text-magenta/5 absolute -top-10 -left-10 italic">PEDAG.</div>
-             <h3 class="text-3xl font-black text-magenta uppercase mb-6 flex items-center gap-4">
-                <span class="w-8 h-1 bg-magenta"></span> Référent Pédagogique
-             </h3>
-             <p class="text-xl font-bold text-secondary/70 leading-relaxed italic">
-               "Je suis avant tout un transmetteur. Chez masolutionformation.com, je coordonne des parcours individualisés et j'accompagne vers la certification. Je maîtrise la pédagogie active : rendre la techno simple pour tous."
-             </p>
+            <div
+              class="text-[120px] font-black text-magenta/5 absolute -top-10 -left-10 italic"
+            >
+              PEDAG.
+            </div>
+            <h3
+              class="text-3xl font-black text-magenta uppercase mb-6 flex items-center gap-4"
+            >
+              <span class="w-8 h-1 bg-magenta"></span> Référent Pédagogique
+            </h3>
+            <p
+              class="text-xl font-bold text-secondary/70 leading-relaxed italic"
+            >
+              "Je suis avant tout un transmetteur. Je coordonne des parcours
+              individualisés et j'accompagne vers la certification. Je maîtrise
+              la pédagogie active : rendre la techno simple pour tous."
+            </p>
           </div>
         </div>
       </div>
@@ -116,80 +209,146 @@ import SanwaButton from '../components/SanwaButton.astro';
 
     <!-- SECTION 4: L'ARMURERIE -->
     <section class="mb-20">
-      <div class="flex flex-col md:flex-row items-end justify-between gap-6 mb-12 text-center md:text-left">
+      <div
+        class="flex flex-col md:flex-row items-end justify-between gap-6 mb-12 text-center md:text-left"
+      >
         <div>
-          <div class="text-main font-black text-xs uppercase tracking-[0.4em] mb-4">LOADOUT / ASSETS</div>
-          <h2 class="text-5xl md:text-7xl font-black text-white uppercase italic tracking-tighter">> L'Armurerie_</h2>
+          <div
+            class="text-main font-black text-xs uppercase tracking-[0.4em] mb-4"
+          >
+            LOADOUT / ASSETS
+          </div>
+          <h2
+            class="text-5xl md:text-7xl font-black text-white uppercase italic tracking-tighter"
+          >
+            > L'Armurerie_
+          </h2>
         </div>
-        <p class="text-secondary/40 font-bold max-w-sm uppercase text-[10px] tracking-widest">
-          La pédagogie n'est rien sans une maîtrise technique absolue. Mon expertise est validée par les standards de l'industrie.
+        <p
+          class="text-secondary/40 font-bold max-w-sm uppercase text-[10px] tracking-widest"
+        >
+          La pédagogie n'est rien sans une maîtrise technique absolue. Mon
+          expertise est validée par les standards de l'industrie.
         </p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- MICROSOFT -->
-        <div class="bg-black border-2 border-white/20 p-6 flex flex-col justify-between hover:border-main transition-colors group">
-           <div>
-              <div class="text-[10px] font-bold text-main mb-2">[ MICROSOFT ]</div>
-              <h4 class="text-lg font-black text-white uppercase">IA Générative</h4>
-           </div>
-           <div class="mt-8 text-xs font-mono text-secondary/40 group-hover:text-main">PREPARER VOTRE CARRIERE</div>
+        <div
+          class="bg-black border-2 border-white/20 p-6 flex flex-col justify-between hover:border-main transition-colors group"
+        >
+          <div>
+            <div class="text-[10px] font-bold text-main mb-2">
+              [ MICROSOFT ]
+            </div>
+            <h4 class="text-lg font-black text-white uppercase">
+              IA Générative
+            </h4>
+          </div>
+          <div
+            class="mt-8 text-xs font-mono text-secondary/40 group-hover:text-main"
+          >
+            PREPARER VOTRE CARRIERE
+          </div>
         </div>
 
         <!-- TOSA 1 -->
-        <div class="bg-black border-2 border-white/20 p-6 flex flex-col justify-between hover:border-magenta transition-colors group">
-           <div>
-              <div class="text-[10px] font-bold text-magenta mb-2">[ TOSA EXPERT ]</div>
-              <h4 class="text-lg font-black text-white uppercase">Adobe Illustrator</h4>
-           </div>
-           <div class="mt-8 text-3xl font-black text-white glow-magenta">1000/1000</div>
+        <div
+          class="bg-black border-2 border-white/20 p-6 flex flex-col justify-between hover:border-magenta transition-colors group"
+        >
+          <div>
+            <div class="text-[10px] font-bold text-magenta mb-2">
+              [ TOSA EXPERT ]
+            </div>
+            <h4 class="text-lg font-black text-white uppercase">
+              Adobe Illustrator
+            </h4>
+          </div>
+          <div class="mt-8 text-3xl font-black text-white glow-magenta">
+            1000/1000
+          </div>
         </div>
 
         <!-- TOSA 2 -->
-        <div class="bg-black border-2 border-white/20 p-6 flex flex-col justify-between hover:border-magenta transition-colors group">
-           <div>
-              <div class="text-[10px] font-bold text-magenta mb-2">[ TOSA EXPERT ]</div>
-              <h4 class="text-lg font-black text-white uppercase">Adobe Photoshop</h4>
-           </div>
-           <div class="mt-8 text-3xl font-black text-white">983/1000</div>
+        <div
+          class="bg-black border-2 border-white/20 p-6 flex flex-col justify-between hover:border-magenta transition-colors group"
+        >
+          <div>
+            <div class="text-[10px] font-bold text-magenta mb-2">
+              [ TOSA EXPERT ]
+            </div>
+            <h4 class="text-lg font-black text-white uppercase">
+              Adobe Photoshop
+            </h4>
+          </div>
+          <div class="mt-8 text-3xl font-black text-white">983/1000</div>
         </div>
 
         <!-- TOSA 3 -->
-        <div class="bg-black border-2 border-white/20 p-6 flex flex-col justify-between hover:border-magenta transition-colors group">
-           <div>
-              <div class="text-[10px] font-bold text-magenta mb-2">[ TOSA EXPERT ]</div>
-              <h4 class="text-lg font-black text-white uppercase">WordPress CMS</h4>
-           </div>
-           <div class="mt-8 text-3xl font-black text-white">836/1000</div>
+        <div
+          class="bg-black border-2 border-white/20 p-6 flex flex-col justify-between hover:border-magenta transition-colors group"
+        >
+          <div>
+            <div class="text-[10px] font-bold text-magenta mb-2">
+              [ TOSA EXPERT ]
+            </div>
+            <h4 class="text-lg font-black text-white uppercase">
+              WordPress CMS
+            </h4>
+          </div>
+          <div class="mt-8 text-3xl font-black text-white">836/1000</div>
         </div>
 
         <!-- LINKEDIN -->
-        <div class="bg-black border-2 border-white/20 p-6 flex flex-col justify-between hover:border-main transition-colors group lg:col-span-2">
-           <div>
-              <div class="text-[10px] font-bold text-main mb-2">[ LINKEDIN LEARNING ]</div>
-              <h4 class="text-lg font-black text-white uppercase">Web Development & SEO Foundations</h4>
-           </div>
-           <div class="mt-8 flex flex-wrap gap-4 text-[10px] font-black text-secondary/60 uppercase">
-              <span>• HTML5</span>
-              <span>• CSS Grid Layout</span>
-              <span>• AngularJS</span>
-              <span>• SEO Techniques</span>
-           </div>
+        <div
+          class="bg-black border-2 border-white/20 p-6 flex flex-col justify-between hover:border-main transition-colors group lg:col-span-2"
+        >
+          <div>
+            <div class="text-[10px] font-bold text-main mb-2">
+              [ LINKEDIN LEARNING ]
+            </div>
+            <h4 class="text-lg font-black text-white uppercase">
+              Web Development & SEO Foundations
+            </h4>
+          </div>
+          <div
+            class="mt-8 flex flex-wrap gap-4 text-[10px] font-black text-secondary/60 uppercase"
+          >
+            <span>• HTML5</span>
+            <span>• CSS Grid Layout</span>
+            <span>• AngularJS</span>
+            <span>• SEO Techniques</span>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- CALL TO ACTION -->
-    <div class="mt-32 p-1 bg-gradient-to-r from-main via-magenta to-alert shadow-brutal">
+    <div
+      class="mt-32 p-1 bg-gradient-to-r from-main via-magenta to-alert shadow-brutal"
+    >
       <div class="bg-black p-10 md:p-20 text-center">
-         <h3 class="text-4xl md:text-6xl font-black text-white uppercase italic mb-8">Prêt à bâtir vos fondations ?</h3>
-         <div class="flex flex-col md:flex-row gap-6 justify-center">
-            <SanwaButton text="Engager un Audit" btnKey="A" type="primary" href="/contact" />
-            <SanwaButton text="Voir les Missions" btnKey="B" type="alert" href="/#mission" />
-         </div>
+        <h3
+          class="text-4xl md:text-6xl font-black text-white uppercase italic mb-8"
+        >
+          Prêt à bâtir vos fondations ?
+        </h3>
+        <div class="flex flex-col md:flex-row gap-6 justify-center">
+          <SanwaButton
+            text="Engager un Audit"
+            btnKey="A"
+            type="primary"
+            href="/contact"
+          />
+          <SanwaButton
+            text="Voir les Missions"
+            btnKey="B"
+            type="alert"
+            href="/#mission"
+          />
+        </div>
       </div>
     </div>
-
   </main>
 </Layout>
 
@@ -203,7 +362,7 @@ import SanwaButton from '../components/SanwaButton.astro';
   .shadow-brutal-alert {
     box-shadow: 8px 8px 0px 0px var(--color-alert);
   }
-  
+
   /* Custom utility because Tailwind might not have the variable based one */
   :root {
     --color-magenta: #d946ef;
