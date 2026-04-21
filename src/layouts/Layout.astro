@@ -35,7 +35,7 @@ const {
 				<!-- Mobile Navigation Trigger -->
 				<button 
 					id="mobile-menu-toggle" 
-					class="md:hidden absolute top-4 right-4 z-[150] bg-black border-4 border-main p-2 shadow-brutal flex items-center justify-center active:translate-x-0 active:translate-y-0 active:shadow-none"
+					class="md:hidden absolute top-4 right-4 z-[200] bg-black border-4 border-main p-2 shadow-brutal flex items-center justify-center active:translate-x-0 active:translate-y-0 active:shadow-none"
 				>
 					<span class="text-main font-[400] uppercase text-[12px] tracking-[2px]">Menu Système</span>
 				</button>
@@ -44,7 +44,7 @@ const {
 				<TransitionScreen />
 				
 				<!-- Neon Content Frame -->
-				<div class="absolute inset-0 border-4 border-magenta glow-magenta pointer-events-none z-[100] opacity-50"></div>
+				<div class="absolute inset-0 border-4 border-magenta glow-magenta pointer-events-none z-[100]"></div>
 				
 				<div id="arcade-monitor-content" class="absolute inset-0 overflow-y-auto custom-scrollbar">
 					<slot />
