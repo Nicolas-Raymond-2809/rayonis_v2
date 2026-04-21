@@ -1,21 +1,31 @@
 ---
+
 ---
-<div class="fixed top-0 left-0 w-full bg-[#0d0618] border-b-4 border-magenta z-[150] h-10 flex items-center overflow-hidden shadow-[0_0_15px_rgba(217,70,239,0.3)]">
+
+<div
+  class="fixed top-0 left-0 w-full bg-[#0d0618] border-b-4 border-magenta z-[150] h-10 flex items-center overflow-hidden shadow-[0_0_15px_rgba(217,70,239,0.3)]"
+>
   <div class="flex whitespace-nowrap animate-marquee">
-    {[...Array(10)].map(() => (
-      <span class="text-main font-black text-xl uppercase px-4 tracking-tighter drop-shadow-[0_0_5px_rgba(34,211,238,0.5)]">
-        AI & CLOUD ORCHESTRATION — RAYONIS ARCADE OS — v2.0 — CYBER-POP — 
-      </span>
-    ))}
+    {
+      [...Array(10)].map(() => (
+        <span class="text-main font-black text-xl uppercase px-4 tracking-tighter drop-shadow-[0_0_5px_rgba(34,211,238,0.5)]">
+          AI & CLOUD ORCHESTRATION — RAYONIS ARCADE OS — v2.0 — CYBER-POP —
+        </span>
+      ))
+    }
   </div>
 </div>
 
 <style>
   @keyframes marquee {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
   }
   .animate-marquee {
-    animation: marquee 20s linear infinite;
+    animation: marquee 80s linear infinite;
   }
 </style>
