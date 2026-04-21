@@ -1,0 +1,68 @@
+---
+---
+
+<div id="arcade-transition-screen" class="fixed inset-0 z-[200] hidden items-center justify-center pointer-events-none overflow-hidden">
+  <!-- Background Noise/Flash -->
+  <div id="transition-bg" class="absolute inset-0 bg-main opacity-0 transition-opacity duration-300"></div>
+  
+  <!-- CRT Content -->
+  <div class="relative z-10 flex flex-col items-center">
+    <div class="monitor-bezel bg-black p-12 border-8 border-magenta shadow-[0_0_50px_rgba(217,70,239,0.5)]">
+      <div class="glitch-text text-6xl md:text-8xl font-black text-main uppercase tracking-[0.2em] italic">
+        Mission Start
+      </div>
+      <div class="mt-4 flex justify-between items-center px-2">
+        <span class="text-xs font-black text-magenta animate-pulse uppercase">Initializing Stage...</span>
+        <div class="flex gap-1">
+          {[...Array(5)].map((_, i) => (
+             <div class={`w-2 h-4 bg-main animate-pulse`} style={`animation-delay: ${i * 0.1}s`}></div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Additional Glitch Overlays -->
+  <div class="absolute inset-0 pointer-events-none">
+    <div class="animate-scanline absolute inset-0 bg-gradient-to-b from-transparent via-magenta/20 to-transparent bg-[length:100%_10px]"></div>
+  </div>
+</div>
+
+<script>
+  const screen = document.getElementById('arcade-transition-screen');
+  const bg = document.getElementById('transition-bg');
+
+  window.addEventListener('arcade-trigger-transition', (e: any) => {
+    const targetUrl = e.detail?.url;
+    if (!screen || !bg) return;
+
+    // 1. Show Screen
+    screen.classList.remove('hidden');
+    screen.classList.add('flex');
+    
+    // 2. Flash background
+    bg.classList.add('opacity-40');
+    setTimeout(() => bg.classList.remove('opacity-40'), 100);
+
+    // 3. Shake the whole monitor bezel (global effect)
+    const monitor = document.querySelector('.monitor-bezel');
+    monitor?.classList.add('animate-monitor-shake');
+
+    // 4. Navigate after delay
+    if (targetUrl) {
+      setTimeout(() => {
+        window.location.href = targetUrl;
+      }, 1000);
+    }
+  });
+</script>
+
+<style>
+  @keyframes scanline-fast {
+    from { transform: translateY(-100%); }
+    to { transform: translateY(100%); }
+  }
+  .animate-scanline {
+    animation: scanline-fast 0.5s linear infinite;
+  }
+</style>

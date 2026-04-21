@@ -1,0 +1,41 @@
+---
+interface Props {
+  text: string;
+  btnKey?: string;
+  type?: "primary" | "alert";
+  href?: string;
+  id?: string;
+}
+
+const { text, btnKey = "A", type = "primary", href, id } = Astro.props;
+
+const baseColor = type === "primary" ? "bg-main" : "bg-magenta";
+const shadowColor = type === "primary" ? "shadow-[0_8px_0_#000,0_12px_20px_rgba(34,211,238,0.3)]" : "shadow-[0_8px_0_#000,0_12px_20px_rgba(217,70,239,0.3)]";
+const activeShadow = "active:shadow-none active:translate-y-[8px]";
+const focusShadow = type === "primary" ? "focus:shadow-[0_8px_0_var(--color-main)]" : "focus:shadow-[0_8px_0_var(--color-magenta)]";
+---
+
+{href ? (
+  <a 
+    href={href}
+    id={id}
+    data-arcade-key={btnKey}
+    class={`group relative inline-flex flex-col items-center justify-center min-w-[140px] px-8 py-4 border-4 border-black font-black uppercase text-xl transition-all duration-75 outline-none select-none ${baseColor} ${shadowColor} ${activeShadow} ${focusShadow} hover:translate-y-1`}
+  >
+    <span class="text-[12px] tracking-[2px] font-[400] bg-black text-white px-2 py-0.5 mb-1 italic">[{btnKey}]</span>
+    <span class="text-black">{text}</span>
+  </a>
+) : (
+  <button 
+    id={id}
+    data-arcade-key={btnKey}
+    class={`group relative inline-flex flex-col items-center justify-center min-w-[140px] px-8 py-4 border-4 border-black font-black uppercase text-xl transition-all duration-75 outline-none select-none ${baseColor} ${shadowColor} ${activeShadow} ${focusShadow} hover:translate-y-1`}
+  >
+    <span class="text-[12px] tracking-[2px] font-[400] bg-black text-white px-2 py-0.5 mb-1 italic">[{btnKey}]</span>
+    <span class="text-black">{text}</span>
+  </button>
+)}
+
+<style>
+  * { border-radius: 0 !important; }
+</style>

@@ -1,0 +1,121 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  stage: string;
+  imageUrl: string;
+  href?: string;
+  color?: "main" | "magenta" | "alert";
+  category?: string;
+}
+
+const { title, description, stage, imageUrl, href = "#", color = "main", category } = Astro.props;
+
+const colorMap = {
+  main: {
+    border: "border-main",
+    text: "text-main",
+    glow: "glow-cyan/20 focus:glow-cyan/40",
+    shadow: "focus:shadow-brutal-main",
+    bg: "bg-main"
+  },
+  magenta: {
+    border: "border-magenta",
+    text: "text-magenta",
+    glow: "glow-magenta/20 focus:glow-magenta/40",
+    shadow: "focus:shadow-brutal-magenta",
+    bg: "bg-magenta"
+  },
+  alert: {
+    border: "border-alert",
+    text: "text-alert",
+    glow: "glow-alert/20 focus:glow-red/40",
+    shadow: "focus:shadow-brutal-alert shadow-alert",
+    bg: "bg-alert"
+  }
+};
+
+const c = colorMap[color];
+---
+
+<a 
+  href={href}
+  class={`group relative block bg-[#0a0514] border-4 ${c.border} p-1 transition-all duration-75 focus:translate-x-[-8px] focus:translate-y-[-8px] ${c.shadow} focus:animate-shake outline-none ${c.glow} no-underline`}
+  data-arcade-stage={stage}
+>
+  <div class={`relative aspect-video overflow-hidden border-b-4 ${c.border} bg-bg-arcade`}>
+    <img 
+      src={imageUrl} 
+      alt={title} 
+      class="w-full h-full object-cover grayscale-[20%] opacity-80 group-hover:grayscale-0 group-hover:opacity-100 group-focus-within:grayscale-0 group-focus-within:opacity-100 transition-all duration-300"
+    />
+    <!-- Bottom gradient for text contrast -->
+    <div class="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 to-transparent pointer-events-none"></div>
+
+    <div class="absolute top-2 right-2 flex items-center gap-2">
+      {category && (
+        <div class={`bg-black/80 text-white px-2 py-0.5 font-black text-[8px] uppercase tracking-tighter border border-white/20`}>
+          {category}
+        </div>
+      )}
+      <span class="bg-black text-white px-2 py-0.5 font-[400] text-[12px] italic tracking-[2px] border border-white/20 shadow-brutal">
+        [{stage.replace('0', '')}]
+      </span>
+    </div>
+    <div class={`absolute top-2 left-2 ${c.bg} text-black px-3 py-1 font-black text-xs uppercase italic drop-shadow-md`}>
+      Stage {stage}
+    </div>
+  </div>
+
+  <div class="p-4">
+    <h3 class={`text-2xl font-black uppercase text-white mb-2 tracking-wider leading-[1.1] group-focus-within:${c.text}`}>
+      {title}
+    </h3>
+    <p class="text-sm font-bold text-secondary/60 leading-tight">
+      {description}
+    </p>
+  </div>
+
+  <div class="mt-4 p-4 pt-0 flex justify-between items-center">
+    <span class={`text-[10px] font-black ${c.text} uppercase tracking-widest animate-pulse`}>
+      Statut: Prêt
+    </span>
+    <div class={`w-4 h-4 ${c.bg} animate-pulse shadow-[0_0_10px_rgba(0,0,0,0.5)]`}></div>
+  </div>
+</div>
+
+<script>
+  // Handle Stage Selection with Animation
+  document.querySelectorAll('[data-arcade-stage]').forEach(card => {
+    card.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetUrl = card.getAttribute('href');
+      
+      // 1. Add Flash class
+      card.classList.add('animate-selection');
+      
+      // 2. Trigger Global OS Transition
+      window.dispatchEvent(new CustomEvent('arcade-trigger-transition', { 
+        detail: { url: targetUrl } 
+      }));
+    });
+
+    // Support for Enter key
+    card.addEventListener('keydown', (e: any) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        (e.currentTarget as HTMLElement).click();
+      }
+    });
+  });
+</script>
+
+<style>
+  @keyframes scanline {
+    from { transform: translateY(-100%); }
+    to { transform: translateY(100%); }
+  }
+  .animate-scanline {
+    animation: scanline 2s linear infinite;
+  }
+</style>

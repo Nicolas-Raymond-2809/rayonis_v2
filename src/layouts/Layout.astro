@@ -1,0 +1,289 @@
+---
+import '../styles/global.css';
+import Menu from '../components/Menu.astro';
+import ArcadeDeck from '../components/ArcadeDeck.astro';
+import TransitionScreen from '../components/TransitionScreen.astro';
+
+interface Props {
+	title?: string;
+	description?: string;
+}
+
+const { 
+	title = "Rayonis Academy | De la Conscience à la Maîtrise", 
+	description = "Formation IA & Accompagnement STEAM pour jeunes et professionnels" 
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="fr" class="bg-bg-arcade">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+	</head>
+	<body class="bg-black min-h-screen Selection:bg-main selection:text-bg-arcade p-0 overflow-hidden flex flex-col">
+		<!-- Monitor Section -->
+		<div class="flex-grow flex items-center justify-center p-0 md:p-4 bg-[#0a0a0a]">
+			<div class="relative w-full max-w-none md:max-w-7xl h-full md:monitor-bezel md:crt-effect overflow-hidden bg-bg-arcade">
+				<!-- Mobile Navigation Trigger -->
+				<button 
+					id="mobile-menu-toggle" 
+					class="md:hidden absolute top-4 right-4 z-[150] bg-black border-4 border-main p-2 shadow-brutal flex items-center justify-center active:translate-x-0 active:translate-y-0 active:shadow-none"
+				>
+					<span class="text-main font-[400] uppercase text-[12px] tracking-[2px]">Menu Système</span>
+				</button>
+
+				<Menu />
+				<TransitionScreen />
+				
+				<!-- Neon Content Frame -->
+				<div class="absolute inset-0 border-4 border-magenta glow-magenta pointer-events-none z-[100] opacity-50"></div>
+				
+				<div id="arcade-monitor-content" class="absolute inset-0 overflow-y-auto custom-scrollbar">
+					<slot />
+				</div>
+			</div>
+		</div>
+
+		<!-- Control Deck Section -->
+		<div class="hidden md:flex h-[20vh] bg-[#1a1a1a] border-t-8 border-black perspective-console">
+			<div class="h-full w-full deck-slant bg-deck-gradient border-t-4 border-white/5 flex items-center justify-center shadow-2xl relative">
+				<!-- Decorative elements for the deck -->
+				<div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(circle, #fff 1px, transparent 1px); background-size: 20px 20px;"></div>
+				
+				<div class="flex items-center justify-center pointer-events-auto h-full w-full">
+					<ArcadeDeck />
+				</div>
+			</div>
+		</div>
+
+		<!-- Controls Manual Modal -->
+		<div id="controls-manual" class="fixed inset-0 z-[200] hidden items-center justify-center p-4">
+			<div class="absolute inset-0 bg-black/90 backdrop-blur-md"></div>
+			<div class="relative w-full max-w-2xl bg-[#0d0618] border-8 border-main p-1 shadow-brutal-main animate-zoom-in">
+				<div class="bg-[#0d0618] border-4 border-magenta p-6 md:p-8">
+					<div class="flex justify-between items-center mb-6 border-b-4 border-magenta pb-4">
+						<h2 class="text-3xl font-black uppercase text-magenta italic tracking-tighter glow-magenta">Manuel Commandes</h2>
+						<span class="text-[10px] font-black text-main animate-pulse uppercase">[ESC] Fermer</span>
+					</div>
+					
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+						<!-- Basic Navigation -->
+						<div>
+							<h3 class="text-main font-black uppercase text-xs mb-3 tracking-widest border-l-4 border-main pl-2">Système</h3>
+							<table class="w-full text-[10px] md:text-xs">
+								<tr class="border-b border-white/10 uppercase"><td class="py-2 text-white font-medium tracking-[2px]">[M] / M</td><td class="py-2 text-secondary/60 text-right font-medium tracking-[2px]">Menu Système</td></tr>
+								<tr class="border-b border-white/10 uppercase"><td class="py-2 text-white font-medium tracking-[2px]">[A] / ENTER</td><td class="py-2 text-secondary/60 text-right font-medium tracking-[2px]">Action / Valider</td></tr>
+								<tr class="border-b border-white/10 uppercase"><td class="py-2 text-white font-medium tracking-[2px]">[B] / ESC</td><td class="py-2 text-secondary/60 text-right font-medium tracking-[2px]">Retour / Fermer</td></tr>
+								<tr class="border-b border-white/10 uppercase"><td class="py-2 text-white font-medium tracking-[2px]">[C] / C</td><td class="py-2 text-secondary/60 text-right font-medium tracking-[2px]">QG Contact</td></tr>
+								<tr class="border-b border-white/10 uppercase"><td class="py-2 text-white font-medium tracking-[2px]">[H] / H</td><td class="py-2 text-secondary/60 text-right font-medium tracking-[2px]">Ce Manuel</td></tr>
+							</table>
+						</div>
+
+						<!-- Specialized Controls -->
+						<div>
+							<h3 class="text-magenta font-black uppercase text-xs mb-3 tracking-widest border-l-4 border-magenta pl-2">Navigation</h3>
+							<table class="w-full text-[10px] md:text-xs">
+								<tr class="border-b border-white/10 uppercase"><td class="py-2 text-white font-medium tracking-[2px]">FLÈCHES ↑↓</td><td class="py-2 text-secondary/60 text-right font-medium tracking-[2px]">Défiler Écran</td></tr>
+								<tr class="border-b border-white/10 uppercase"><td class="py-2 text-white font-medium tracking-[2px]">FLÈCHES ←→</td><td class="py-2 text-secondary/60 text-right font-medium tracking-[2px]">Changer Sélection</td></tr>
+								<tr class="border-b border-white/10 uppercase"><td class="py-2 text-white font-medium tracking-[2px]">TOUCHES [1-9]</td><td class="py-2 text-secondary/60 text-right font-medium tracking-[2px]">Accès Direct</td></tr>
+								<tr class="border-b border-white/10 uppercase"><td class="py-2 text-white font-medium tracking-[2px]">ENTER (HOLD)</td><td class="py-2 text-secondary/60 text-right font-medium tracking-[2px]">Valider (Contact)</td></tr>
+							</table>
+						</div>
+					</div>
+
+					<button id="close-manual" class="mt-8 w-full bg-main text-bg-arcade font-black py-3 border-4 border-black hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-brutal active:translate-x-0 active:translate-y-0 uppercase text-xs tracking-[0.2em]">
+						Reprendre la Mission
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			// Gamepad API Implementation
+			const MAP = {
+				BUTTON_A: 0, // Validation
+				BUTTON_B: 1, // Retour
+				D_PAD_UP: 12, 
+				D_PAD_DOWN: 13,
+				D_PAD_LEFT: 14,
+				D_PAD_RIGHT: 15,
+				L1_SHOULDER: 4
+			};
+
+			let lastPressed = new Set();
+
+			function pollGamepad() {
+				const gamepads = navigator.getGamepads();
+				if (!gamepads[0]) return requestAnimationFrame(pollGamepad);
+
+				const gp = gamepads[0];
+				
+				// Helper for single press detection
+				const isPressed = (btnIndex: number) => gp.buttons[btnIndex]?.pressed;
+
+				// D-PAD Navigation (Simulate Tab / Shift+Tab)
+				if (isPressed(MAP.D_PAD_DOWN) || isPressed(MAP.D_PAD_RIGHT)) {
+					if (!lastPressed.has('NEXT')) {
+						navigateFocus(1);
+						lastPressed.add('NEXT');
+					}
+				} else {
+					lastPressed.delete('NEXT');
+				}
+
+				if (isPressed(MAP.D_PAD_UP) || isPressed(MAP.D_PAD_LEFT)) {
+					if (!lastPressed.has('PREV')) {
+						navigateFocus(-1);
+						lastPressed.add('PREV');
+					}
+				} else {
+					lastPressed.delete('PREV');
+				}
+
+				// Button A (Enter)
+				if (isPressed(MAP.BUTTON_A)) {
+					if (!lastPressed.has('A')) {
+						const active = document.activeElement as HTMLElement;
+						active?.click();
+						lastPressed.add('A');
+					}
+				} else {
+					lastPressed.delete('A');
+				}
+
+				// Button B (Escape)
+				if (isPressed(MAP.BUTTON_B)) {
+					if (!lastPressed.has('B')) {
+						window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+						lastPressed.add('B');
+					}
+				} else {
+					lastPressed.delete('B');
+				}
+
+				requestAnimationFrame(pollGamepad);
+			}
+
+			function navigateFocus(direction: number) {
+				const focusableElements = Array.from(
+					document.querySelectorAll('a, button, input, [tabindex]:not([tabindex="-1"])')
+				).filter(el => {
+					// Don't focus elements inside hidden containers
+					let parent = el.parentElement;
+					while (parent) {
+						if (parent.classList.contains('hidden')) return false;
+						parent = parent.parentElement;
+					}
+					return true;
+				}) as HTMLElement[];
+				
+				if (focusableElements.length === 0) return;
+
+				const currentIndex = focusableElements.indexOf(document.activeElement as HTMLElement);
+				let nextIndex = currentIndex + direction;
+
+				if (nextIndex >= focusableElements.length) nextIndex = 0;
+				if (nextIndex < 0) nextIndex = focusableElements.length - 1;
+
+				focusableElements[nextIndex].focus();
+			}
+
+			// Expose globally for D-Pad
+			(window as any).navigateArcadeFocus = navigateFocus;
+
+			window.addEventListener("gamepadconnected", () => {
+				console.log("Gamepad connected! Arcade Mode Active.");
+				pollGamepad();
+			});
+
+			// Also allow Arrow keys for same experience
+			window.addEventListener('keydown', (e) => {
+				if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+					// navigateFocus(1); // Standard browser behavior often handles this for tabs, but we want a uniform feel
+				}
+			});
+			// Mobile Menu Toggle
+			const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+			mobileMenuToggle?.addEventListener('click', () => {
+				window.dispatchEvent(new CustomEvent('toggle-arcade-menu'));
+			});
+
+			// Controls Manual Toggle
+			const manual = document.getElementById('controls-manual');
+			const closeManualBtn = document.getElementById('close-manual');
+
+			function toggleManual() {
+				if (!manual) return;
+				const isHidden = manual.classList.contains('hidden');
+				if (isHidden) {
+					manual.classList.remove('hidden');
+					manual.classList.add('flex');
+					closeManualBtn?.focus();
+				} else {
+					manual.classList.add('hidden');
+					manual.classList.remove('flex');
+				}
+			}
+
+			window.addEventListener('toggle-controls-manual', toggleManual);
+			closeManualBtn?.addEventListener('click', toggleManual);
+
+			// Close on Escape or B key
+			window.addEventListener('keydown', (e) => {
+				if (e.key === 'Escape') {
+					if (!manual?.classList.contains('hidden')) {
+						toggleManual();
+					}
+				}
+
+				// Global Numeric Stage Access (1-9)
+				if (e.key >= '1' && e.key <= '9') {
+					// Don't trigger if typing in a form
+					const active = document.activeElement;
+					if (active?.tagName === 'INPUT' || active?.tagName === 'TEXTAREA') return;
+
+					const stageNum = e.key.padStart(2, '0');
+					const target = document.querySelector(`[data-arcade-stage="${stageNum}"]`) as HTMLElement;
+					
+					if (target) {
+						target.focus();
+						target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+						
+						// Visual feedback: brief shake
+						target.classList.add('animate-shake');
+						setTimeout(() => target.classList.remove('animate-shake'), 200);
+					}
+				}
+			});
+		</script>
+	</body>
+</html>
+
+<style is:global>
+	:root {
+		--font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+	}
+	
+	* {
+		box-sizing: border-box;
+		cursor: crosshair;
+	}
+
+	html, body {
+		height: 100%;
+		font-family: var(--font-sans);
+	}
+
+	/* Force focus visible for arcade feel */
+	*:focus {
+		outline: none !important;
+	}
+</style>

@@ -1,0 +1,334 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Marquee from '../components/Marquee.astro';
+---
+
+<Layout title="Rayonis | Contact HQ">
+  <Marquee />
+  
+  <main class="pt-8 px-4 md:px-8 pb-10 flex flex-col items-center">
+    <div class="w-full max-w-3xl animate-slide-in">
+      <!-- Header Section -->
+      <header class="mb-10 text-left border-l-8 border-magenta pl-6">
+        <h1 class="text-4xl md:text-6xl font-black uppercase text-white tracking-widest drop-shadow-neon-cyan">
+          Contactez-nous
+        </h1>
+        <p class="text-lg font-bold text-secondary/60 mt-2">
+          Parlez-nous de votre projet ou posez-nous vos questions.
+        </p>
+      </header>
+
+      <!-- Neo-Brutalist Form -->
+      <form class="space-y-6 bg-black/20 p-6 md:p-10 border-4 border-magenta shadow-brutal-magenta">
+        
+        <!-- Row: Nom Complet -->
+        <div class="flex flex-col gap-2">
+          <label class="text-xs font-black uppercase text-main tracking-widest">
+            <span class="bg-black text-white px-1 mr-1">[1]</span> Nom Complet *
+          </label>
+          <input 
+            type="text" 
+            placeholder="Jean Dupont"
+            data-arcade-input="1"
+            class="w-full bg-[#ccfff5] border-4 border-black p-4 text-black font-black placeholder:text-black/30 outline-none focus:bg-main focus:ring-4 focus:ring-magenta/50 transition-all"
+            required
+          />
+        </div>
+
+        <!-- Row: Email & Téléphone -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="flex flex-col gap-2">
+            <label class="text-xs font-black uppercase text-main tracking-widest">
+              <span class="bg-black text-white px-1 mr-1">[2]</span> Email *
+            </label>
+            <input 
+              type="email" 
+              placeholder="jean@exemple.com"
+              data-arcade-input="2"
+              class="w-full bg-[#ccfff5] border-4 border-black p-4 text-black font-black placeholder:text-black/30 outline-none focus:bg-main transition-all"
+              required
+            />
+          </div>
+          <div class="flex flex-col gap-2">
+            <label class="text-xs font-black uppercase text-secondary/60 tracking-widest">
+              <span class="bg-black text-white px-1 mr-1">[3]</span> Téléphone
+            </label>
+            <input 
+              type="tel" 
+              placeholder="06 12 34 56 78"
+              data-arcade-input="3"
+              class="w-full bg-[#ccfff5] border-4 border-black p-4 text-black font-black placeholder:text-black/30 outline-none focus:bg-main transition-all"
+            />
+          </div>
+        </div>
+
+        <!-- Row: Moment & Canal -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="flex flex-col gap-2">
+            <label class="text-xs font-black uppercase text-secondary/60 tracking-widest">
+              <span class="bg-black text-white px-1 mr-1">[4]</span> Moment Préféré
+            </label>
+            <select data-arcade-input="4" class="w-full bg-[#ccfff5] border-4 border-black p-4 text-black font-black outline-none focus:bg-main transition-all appearance-none cursor-pointer">
+              <option>Peu importe</option>
+              <option>Matin</option>
+              <option>Après-midi</option>
+              <option>Soir</option>
+            </select>
+          </div>
+          <div class="flex flex-col gap-2">
+            <label class="text-xs font-black uppercase text-secondary/60 tracking-widest">
+              <span class="bg-black text-white px-1 mr-1">[5]</span> Canal Préféré
+            </label>
+            <select data-arcade-input="5" class="w-full bg-[#ccfff5] border-4 border-black p-4 text-black font-black outline-none focus:bg-main transition-all appearance-none cursor-pointer">
+              <option>Peu importe</option>
+              <option>Email</option>
+              <option>Téléphone</option>
+              <option>Visioconférence</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Row: Sujet -->
+        <div class="flex flex-col gap-2">
+          <label class="text-xs font-black uppercase text-main tracking-widest">
+            <span class="bg-black text-white px-1 mr-1">[6]</span> Sujet *
+          </label>
+          <input 
+            type="text" 
+            placeholder="Demande d'information..."
+            data-arcade-input="6"
+            class="w-full bg-[#ccfff5] border-4 border-black p-4 text-black font-black placeholder:text-black/30 outline-none focus:bg-main transition-all"
+            required
+          />
+        </div>
+
+        <!-- Row: Message -->
+        <div class="flex flex-col gap-2">
+          <label class="text-xs font-black uppercase text-main tracking-widest">
+            <span class="bg-black text-white px-1 mr-1">[7]</span> Message *
+          </label>
+          <textarea 
+            rows="5"
+            placeholder="Comment pouvons-nous vous aider ?"
+            data-arcade-input="7"
+            class="w-full bg-[#ccfff5] border-4 border-black p-4 text-black font-black placeholder:text-black/30 outline-none focus:bg-main transition-all resize-none"
+            required
+          ></textarea>
+        </div>
+
+        <!-- Cloudflare Turnstile Mockup -->
+        <div class="bg-white/90 border-2 border-secondary/20 p-4 flex items-center justify-between shadow-sm">
+          <div class="flex items-center gap-3">
+             <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+             </div>
+             <span class="text-sm font-bold text-black italic">Succès !</span>
+          </div>
+          <div class="flex flex-col items-end">
+             <div class="text-[8px] font-black uppercase text-secondary/40">Verified by</div>
+             <div class="text-orange-500 font-black text-xs">CLOUDFLARE</div>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="relative group">
+          <button 
+            id="hp-submit-btn"
+            type="submit"
+            class="relative w-full bg-main border-4 border-black p-5 text-bg-arcade font-black uppercase text-xl shadow-brutal transition-all flex items-center justify-center gap-4 overflow-hidden"
+          >
+            <!-- Progress Bar Overlay -->
+            <div id="submit-progress" class="absolute left-0 top-0 bottom-0 bg-magenta/40 w-0 transition-all duration-75 pointer-events-none"></div>
+            
+            <span id="submit-text" class="relative z-10 transition-transform duration-75">Maintenir [ENTER] pour envoyer</span>
+            <svg id="submit-icon" class="relative z-10 group-hover:translate-x-2 transition-transform" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+          </button>
+          <div class="absolute -top-6 left-0 w-full text-center">
+            <span id="hold-prompt" class="text-[10px] font-black text-main uppercase tracking-widest opacity-0 transition-opacity">Maintenez [ENTER] jusqu'au bout...</span>
+          </div>
+        </div>
+      </form>
+
+      <!-- Mission Failed Pop-up (Modal) -->
+      <div id="error-modal" class="fixed inset-0 z-[200] hidden items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
+        <div class="relative w-full max-w-md bg-alert border-8 border-black p-1 shadow-brutal animate-shake">
+          <div class="bg-black p-6 border-4 border-white flex flex-col items-center">
+            <h2 class="text-3xl font-black text-alert uppercase italic mb-4 tracking-tighter">Mission Failed</h2>
+            <div class="w-16 h-1 w-full bg-alert mb-6"></div>
+            <p class="text-white font-bold text-center uppercase text-sm leading-relaxed mb-8">
+              Critical Data Missing!<br/>
+              Please complete all required fields [ * ] to proceed with the transmission.
+            </p>
+            <button 
+              id="close-error-modal"
+              class="w-full bg-alert text-white font-black py-4 border-4 border-black hover:bg-red-600 transition-colors uppercase tracking-widest"
+            >
+              Retry Mission
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer metadata -->
+      <div class="mt-12 opacity-20 text-[10px] font-black uppercase tracking-[0.2em] text-center">
+        © 2026 Rayonis Digital Systems | Mission Control
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<script>
+  const form = document.querySelector('form') as HTMLFormElement;
+  const submitBtn = document.getElementById('hp-submit-btn');
+  const progressBar = document.getElementById('submit-progress');
+  const submitText = document.getElementById('submit-text');
+  const holdPrompt = document.getElementById('hold-prompt');
+  
+  let holdTimer: number | null = null;
+  let progress = 0;
+  const HOLD_DURATION = 2000;
+  const UPDATE_INTERVAL = 20;
+
+  const errorModal = document.getElementById('error-modal');
+  const closeErrorBtn = document.getElementById('close-error-modal');
+
+  function startHolding() {
+    if (holdTimer || !errorModal?.classList.contains('hidden')) return;
+    
+    progress = 0;
+    submitText!.innerText = "TRANSMISSION...";
+    holdPrompt!.classList.remove('opacity-0');
+    holdPrompt!.classList.add('opacity-100');
+
+    holdTimer = window.setInterval(() => {
+      progress += UPDATE_INTERVAL;
+      const percentage = (progress / HOLD_DURATION) * 100;
+      progressBar!.style.width = `${percentage}%`;
+
+      if (progress >= HOLD_DURATION) {
+        stopHolding(true);
+        if (form.checkValidity()) {
+          form.submit();
+        } else {
+          // Mission Failed Pop-up
+          errorModal?.classList.remove('hidden');
+          errorModal?.classList.add('flex');
+          stopHolding(false);
+        }
+      }
+    }, UPDATE_INTERVAL);
+  }
+
+  function closeError() {
+    errorModal?.classList.add('hidden');
+    errorModal?.classList.remove('flex');
+  }
+
+  closeErrorBtn?.addEventListener('click', closeError);
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeError();
+  });
+
+  function stopHolding(success = false) {
+    if (holdTimer) {
+      clearInterval(holdTimer);
+      holdTimer = null;
+    }
+    
+    if (!success) {
+      progress = 0;
+      progressBar!.style.width = '0%';
+      submitText!.innerText = "Maintenir [ENTER] pour envoyer";
+      holdPrompt!.classList.add('opacity-0');
+      holdPrompt!.classList.remove('opacity-100');
+    } else {
+      submitText!.innerText = "MISSION SENT!";
+      progressBar!.classList.remove('bg-magenta/40');
+      progressBar!.classList.add('bg-main');
+    }
+  }
+
+  // Intercept Form Submission (Standard Enter)
+  form?.addEventListener('submit', (e) => {
+    if (progress < HOLD_DURATION) {
+      e.preventDefault();
+    }
+  });
+
+  // Global Keyboard Handling
+  window.addEventListener('keydown', (e) => {
+    const menu = document.getElementById('arcade-menu');
+    const isMenuOpen = menu && !menu.classList.contains('hidden');
+    if (isMenuOpen) return; // Let the System Menu handle numeric inputs if it's open
+
+    const active = document.activeElement as HTMLElement;
+    const isInput = active?.tagName === 'INPUT' || active?.tagName === 'TEXTAREA' || active?.tagName === 'SELECT';
+
+    // 1. Numeric Selection (1-7)
+    if (!holdTimer && e.key >= '1' && e.key <= '7') {
+      // Only trigger if not already typing in a field (unless focused on button/body)
+      if (!isInput || active === submitBtn) {
+        const input = document.querySelector(`[data-arcade-input="${e.key}"]`) as HTMLElement;
+        if (input) {
+          e.preventDefault();
+          input.focus();
+        }
+      }
+    }
+
+    // 2. Hold to Submit (Enter)
+    if (e.key === 'Enter') {
+      // Stop browser from submitting immediately
+      e.preventDefault();
+      
+      // Global hold to submit on the contact page
+      startHolding();
+    }
+  });
+
+  window.addEventListener('keyup', (e) => {
+    if (e.key === 'Enter') {
+      stopHolding();
+    }
+  });
+
+  // Mouse/Touch Listeners for Button
+  submitBtn?.addEventListener('mousedown', startHolding);
+  submitBtn?.addEventListener('mouseup', () => stopHolding());
+  submitBtn?.addEventListener('mouseleave', () => stopHolding());
+  
+  submitBtn?.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    startHolding();
+  }, { passive: false });
+  submitBtn?.addEventListener('touchend', () => stopHolding());
+
+</script>
+
+<style>
+  main {
+    background-image: 
+      radial-gradient(var(--color-magenta) 1px, transparent 1px);
+    background-size: 30px 30px;
+    background-color: #0d0618;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    box-shadow: 0 0 15px var(--color-main);
+  }
+
+  form.animate-monitor-shake {
+    animation: monitor-shake 0.3s infinite;
+    border-color: var(--color-alert) !important;
+  }
+
+  #hp-submit-btn {
+    transition: transform 0.1s, box-shadow 0.1s;
+  }
+  
+  #hp-submit-btn:active {
+    transform: translateY(4px);
+    box-shadow: 4px 4px 0px #000;
+  }
+</style>

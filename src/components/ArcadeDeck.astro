@@ -1,0 +1,101 @@
+---
+import SanwaButton from './SanwaButton.astro';
+import DPad from './DPad.astro';
+---
+
+<div class="flex flex-row items-center justify-center w-full h-full px-4 gap-x-6 md:gap-x-12 overflow-visible">
+  <!-- Left: Menu Actions -->
+  <div class="flex flex-col items-center gap-2 group">
+    <SanwaButton id="global-menu-trigger" text="Menu" btnKey="M" />
+    <span class="text-[12px] tracking-[2px] font-[400] text-white/40 uppercase group-hover:text-main transition-colors">Menu OS</span>
+  </div>
+  
+  <!-- Center-Left: System Actions -->
+  <div class="flex flex-col items-center gap-2 group">
+    <SanwaButton id="global-enter-trigger" text="Valider" btnKey="A" type="primary" />
+    <span class="text-[12px] tracking-[2px] font-[400] text-white/40 uppercase group-hover:text-main transition-colors">Action</span>
+  </div>
+
+  <div class="flex flex-col items-center gap-2 group">
+    <SanwaButton id="global-esc-trigger" text="Retour" btnKey="B" type="alert" />
+    <span class="text-[12px] tracking-[2px] font-[400] text-white/40 uppercase group-hover:text-alert transition-colors">Fermer</span>
+  </div>
+
+  <!-- Center-Right: Navigation Controls -->
+  <div class="flex flex-col items-center gap-2">
+    <DPad id="global-dpad" />
+    <span class="text-[12px] tracking-[2px] font-[400] text-white/40 uppercase">Défil.</span>
+  </div>
+
+  <!-- Right: Support Actions -->
+  <div class="flex flex-col items-center gap-2 group">
+    <SanwaButton id="global-contact-trigger" text="Contact" btnKey="C" type="alert" href="/contact" />
+    <span class="text-[12px] tracking-[2px] font-[400] text-white/40 uppercase group-hover:text-alert transition-colors">Urgence</span>
+  </div>
+
+  <div class="flex flex-col items-center gap-2 group">
+    <SanwaButton id="global-help-trigger" text="Aide" btnKey="H" />
+    <span class="text-[12px] tracking-[2px] font-[400] text-white/40 uppercase group-hover:text-main transition-colors">Manuel</span>
+  </div>
+</div>
+
+<script>
+  // Menu Toggle logic
+  const menuTrigger = document.getElementById('global-menu-trigger');
+  menuTrigger?.addEventListener('click', () => {
+    window.dispatchEvent(new CustomEvent('toggle-arcade-menu'));
+  });
+
+  // Help Modal logic
+  const helpTrigger = document.getElementById('global-help-trigger');
+  helpTrigger?.addEventListener('click', () => {
+    window.dispatchEvent(new CustomEvent('toggle-controls-manual'));
+  });
+
+  // Enter Button (Validation)
+  const enterTrigger = document.getElementById('global-enter-trigger');
+  enterTrigger?.addEventListener('click', () => {
+    const active = document.activeElement as HTMLElement;
+    if (active && active !== document.body) {
+      active.click();
+    }
+  });
+
+  // Esc Button (Back / Cancel)
+  const escTrigger = document.getElementById('global-esc-trigger');
+  escTrigger?.addEventListener('click', () => {
+    window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+  });
+
+  // Contact (Transition to Contact Page)
+  const contactTrigger = document.getElementById('global-contact-trigger');
+  contactTrigger?.addEventListener('click', (e) => {
+    e.preventDefault();
+    window.dispatchEvent(new CustomEvent('arcade-trigger-transition', { 
+      detail: { url: '/contact' } 
+    }));
+  });
+
+  // Global Keyboard Shortcuts for Deck Buttons
+  window.addEventListener('keydown', (e) => {
+    const active = document.activeElement;
+    if (active?.tagName === 'INPUT' || active?.tagName === 'TEXTAREA') return;
+
+    const key = e.key.toLowerCase();
+    
+    // Priority: Try to find a button/link ON THE PAGE with this data-arcade-key
+    // Excluding the elements already in ArcadeDeck (which have global IDs)
+    const pageShortcut = document.querySelector(`#arcade-monitor-content [data-arcade-key="${key.toUpperCase()}"]`) as HTMLElement;
+    
+    if (pageShortcut) {
+      pageShortcut.click();
+      return;
+    }
+
+    if (key === 'c') contactTrigger?.click();
+    if (key === 'a') enterTrigger?.click();
+    if (key === 'b') escTrigger?.click();
+    if (key === 'm') menuTrigger?.click();
+    if (key === 'h' || key === '?') helpTrigger?.click();
+  });
+</script>

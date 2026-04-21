@@ -1,0 +1,51 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Marquee from '../components/Marquee.astro';
+import ExpertiseGrid from '../components/ExpertiseGrid.astro';
+---
+
+<Layout title="Rayonis Academy - Formations & Ateliers">
+	<Marquee />
+	
+	<main class="pt-8 px-4 md:px-8 pb-10">
+		<!-- Academy Hero Section -->
+		<section class="mb-10 mt-4">
+			<div class="inline-block bg-main text-black px-4 py-1 font-black uppercase text-xs mb-4 border-2 border-black shadow-brutal">
+				Academy Edition: v2.00
+			</div>
+			<h1 class="text-5xl md:text-7xl font-[900] uppercase text-white leading-none tracking-tighter mb-4 drop-shadow-[0_4px_10px_rgba(34,211,238,0.3)]">
+				Rayonis <span class="text-magenta italic glow-magenta">Academy</span>
+			</h1>
+			<p class="text-lg md:text-xl font-medium text-secondary/80 max-w-2xl leading-snug mb-8 tracking-wider">
+				De la prise de conscience à la maîtrise technique.<br/>
+				<span class="text-main uppercase text-sm">Démarrez votre mission d'apprentissage dès maintenant.</span>
+			</p>
+		</section>
+
+		<!-- Service Grid -->
+		<section class="">
+			<div class="flex items-center gap-4 mb-8 border-b-2 border-magenta/20 pb-2">
+				<h2 class="text-3xl font-black uppercase italic text-white drop-shadow-md">Sélection du Stage</h2>
+				<div class="flex-grow h-0.5 bg-magenta/10"></div>
+				<div class="text-main font-mono text-xs animate-pulse glow-cyan">Analyse en cours...</div>
+			</div>
+			
+			<ExpertiseGrid />
+		</section>
+
+		<footer class="mt-12 opacity-20 text-[10px] font-black uppercase tracking-[0.2em]">
+			© 2026 Rayonis Digital Systems
+		</footer>
+	</main>
+
+</Layout>
+
+<style>
+	main {
+		/* Add a subtle grid pattern background */
+		background-image: 
+			linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+			linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+		background-size: 50px 50px;
+	}
+</style>

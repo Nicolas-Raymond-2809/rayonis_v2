@@ -1,0 +1,138 @@
+---
+interface MenuItem {
+  label: string;
+  href: string;
+  description: string;
+}
+
+const menuItems: MenuItem[] = [
+  { label: "Accueil", href: "/", description: "Centre de commandement principal" },
+  { label: "L'Architecte", href: "/nicolas-raymond", description: "Manifeste & Expertise de Nicolas Raymond" },
+  { label: "Nos Missions", href: "/#mission", description: "Explorer tout le catalogue Academy" },
+  { label: "QG Contact", href: "/contact", description: "Engager l'équipe Rayonis" },
+];
+---
+
+<div 
+  id="arcade-menu" 
+  class="absolute inset-0 z-[100] hidden items-center justify-center p-4 md:p-6 pointer-events-none"
+>
+  <!-- Dark overlay relative to the monitor frame -->
+  <div class="absolute inset-0 bg-black/95 backdrop-blur-md pointer-events-auto shadow-[inset_0_0_100px_rgba(0,0,0,1)]"></div>
+
+  <div class="relative w-full max-w-lg bg-[#0d0618] border-8 border-magenta p-1 shadow-brutal animate-zoom-in pointer-events-auto glow-magenta/40">
+    <div class="border-4 border-main p-4 md:p-6 bg-[#0d0618]">
+      <div class="flex justify-between items-center mb-6 border-b-4 border-main pb-4">
+          <h2 class="text-2xl md:text-3xl font-black uppercase text-main italic tracking-tighter drop-shadow-[0_0_8px_var(--color-main)]">
+            Menu Système
+          </h2>
+          <span class="text-[10px] font-black text-magenta animate-pulse uppercase">
+            [ESC] Fermer
+          </span>
+      </div>
+
+      <nav class="flex flex-col gap-2 md:gap-3">
+        {menuItems.map((item, index) => (
+          <a 
+            href={item.href}
+            class="group relative flex flex-col p-3 border-4 border-transparent hover:border-magenta focus:border-main focus:bg-main focus:text-bg-arcade transition-all outline-none"
+            tabindex="0"
+          >
+            <div class="flex items-center gap-3">
+              <span class="text-lg font-black uppercase text-white group-focus:text-bg-arcade">0{index + 1}. {item.label}</span>
+              <div class="flex-grow h-0.5 bg-magenta/20 group-focus:bg-bg-arcade/20"></div>
+            </div>
+            <p class="text-[9px] font-bold uppercase text-secondary/60 group-focus:text-bg-arcade/80">
+              {item.description}
+            </p>
+            
+            <!-- Selector indicator -->
+            <div class="absolute -left-5 top-1/2 -translate-y-1/2 hidden group-focus:block group-hover:block">
+              <div class="w-3 h-3 bg-magenta transform rotate-45 glow-magenta"></div>
+            </div>
+          </a>
+        ))}
+      </nav>
+
+      <div class="mt-8 pt-6 border-t-4 border-magenta/10 flex justify-between items-end">
+        <div class="text-[9px] font-black uppercase text-secondary/40 leading-none">
+          Arcade OS v2.0<br/>
+          Édition Cyber-Pop
+        </div>
+        <button id="close-menu" class="bg-alert text-white px-4 py-1.5 font-black uppercase text-[10px] border-4 border-black hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-brutal active:translate-x-0 active:translate-y-0 active:shadow-none">
+          Quitter
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  @keyframes zoom-in {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  .animate-zoom-in {
+    animation: zoom-in 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+</style>
+
+<script>
+  const menu = document.getElementById('arcade-menu');
+  const closeBtn = document.getElementById('close-menu');
+  const menuLinks = menu?.querySelectorAll('a');
+
+  function toggleMenu() {
+    if (!menu) return;
+    const isHidden = menu.classList.contains('hidden');
+    
+    if (isHidden) {
+      menu.classList.remove('hidden');
+      menu.classList.add('flex');
+      // Focus first link after animation
+      setTimeout(() => menuLinks?.[0]?.focus(), 100);
+    } else {
+      menu.classList.add('hidden');
+      menu.classList.remove('flex');
+      // Return focus to the trigger if needed, or just let it be
+    }
+  }
+
+  // Listen for global toggle event
+  window.addEventListener('toggle-arcade-menu', () => {
+    toggleMenu();
+  });
+
+  // Global Escape Listener
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      if (!menu?.classList.contains('hidden')) {
+        toggleMenu();
+      } else if (window.location.pathname !== '/') {
+        // If menu is closed and we are on a sub-page, go back to home
+        window.location.href = '/';
+      }
+    }
+
+    // Number key selection when menu is open
+    if (menu && !menu.classList.contains('hidden')) {
+      if (e.key >= '1' && e.key <= '9') {
+        const index = parseInt(e.key) - 1;
+        if (menuLinks && menuLinks[index]) {
+          e.preventDefault();
+          (menuLinks[index] as HTMLElement).focus();
+        }
+      }
+    }
+  });
+
+  // Close button
+  closeBtn?.addEventListener('click', toggleMenu);
+
+  // Close on link click
+  menuLinks?.forEach(link => {
+    link.addEventListener('click', () => {
+      setTimeout(toggleMenu, 100);
+    });
+  });
+</script>
