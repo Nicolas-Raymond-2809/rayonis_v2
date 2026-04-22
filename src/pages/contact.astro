@@ -211,7 +211,7 @@ import Marquee from '../components/Marquee.astro';
     holdPrompt!.classList.remove('opacity-0');
     holdPrompt!.classList.add('opacity-100');
 
-    holdTimer = window.setInterval(() => {
+    holdTimer = window.setInterval(async () => {
       progress += UPDATE_INTERVAL;
       const percentage = (progress / HOLD_DURATION) * 100;
       progressBar!.style.width = `${percentage}%`;
