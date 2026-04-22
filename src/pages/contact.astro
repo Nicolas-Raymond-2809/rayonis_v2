@@ -147,7 +147,7 @@ import Marquee from '../components/Marquee.astro';
             class="relative w-full bg-main border-4 border-black p-5 text-bg-arcade font-black uppercase text-xl shadow-brutal transition-all flex items-center justify-center gap-4 overflow-hidden"
           >
             <!-- Progress Bar Overlay -->
-            <div id="submit-progress" class="absolute left-0 top-0 bottom-0 bg-magenta/40 w-0 transition-all duration-75 pointer-events-none"></div>
+            <div id="submit-progress" class="absolute left-0 top-0 bottom-0 bg-magenta/40 w-full scale-x-0 origin-left pointer-events-none"></div>
             
             <span id="submit-text" class="relative z-10 transition-transform duration-75">Maintenir [ENTER] pour envoyer</span>
             <svg id="submit-icon" class="relative z-10 group-hover:translate-x-2 transition-transform" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
@@ -227,17 +227,27 @@ import Marquee from '../components/Marquee.astro';
   const turnstileTokenInput = document.getElementById('turnstile-token') as HTMLInputElement;
 
   function startHolding() {
-    if (holdTimer || !errorModal?.classList.contains('hidden')) return;
+    // Guard: Don't start if already holding or if a modal is open
+    if (holdTimer || 
+        (errorModal && !errorModal.classList.contains('hidden')) || 
+        (successModal && !successModal.classList.contains('hidden'))) {
+      return;
+    }
     
     progress = 0;
     submitText!.innerText = "TRANSMISSION...";
     holdPrompt!.classList.remove('opacity-0');
     holdPrompt!.classList.add('opacity-100');
 
-    holdTimer = window.setInterval(async () => {
+    holdTimer = window.setInterval(() => {
       progress += UPDATE_INTERVAL;
-      const percentage = (progress / HOLD_DURATION) * 100;
-      progressBar!.style.width = `${percentage}%`;
+      const percentage = Math.min((progress / HOLD_DURATION) * 100, 100);
+      
+      // Use transform for better performance (avoids reflow)
+      if (progressBar) {
+        progressBar.style.transform = `scaleX(${percentage / 100})`;
+        progressBar.style.transformOrigin = 'left';
+      }
 
       if (progress >= HOLD_DURATION) {
         stopHolding(true);
@@ -316,7 +326,9 @@ import Marquee from '../components/Marquee.astro';
     
     if (!success) {
       progress = 0;
-      progressBar!.style.width = '0%';
+      if (progressBar) {
+        progressBar.style.transform = 'scaleX(0)';
+      }
       submitText!.innerText = "Maintenir [ENTER] pour envoyer";
       holdPrompt!.classList.add('opacity-0');
       holdPrompt!.classList.remove('opacity-100');
