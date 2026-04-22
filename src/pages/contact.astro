@@ -179,6 +179,27 @@ import Marquee from '../components/Marquee.astro';
         </div>
       </div>
 
+      <!-- Mission Success Pop-up (Modal) -->
+      <div id="success-modal" class="fixed inset-0 z-[200] hidden items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
+        <div class="relative w-full max-w-md bg-main border-8 border-black p-1 shadow-brutal animate-slide-in">
+          <div class="bg-black p-6 border-4 border-white flex flex-col items-center">
+            <h2 class="text-3xl font-black text-main uppercase italic mb-4 tracking-tighter">Mission Accomplished</h2>
+            <div class="w-16 h-1 w-full bg-main mb-6"></div>
+            <p class="text-white font-bold text-center uppercase text-sm leading-relaxed mb-8">
+              Transmission Complete!<br/>
+              Your data has been received at HQ. We'll get back to you shortly.
+            </p>
+            <button 
+              id="close-success-modal"
+              class="w-full bg-main text-bg-arcade font-black py-4 border-4 border-black hover:bg-cyan-400 transition-colors uppercase tracking-widest"
+            >
+              Return to Base
+            </button>
+          </div>
+        </div>
+      </div>
+
       <!-- Footer metadata -->
       <div class="mt-12 opacity-20 text-[10px] font-black uppercase tracking-[0.2em] text-center">
         © 2026 Rayonis Digital Systems | Mission Control
@@ -201,6 +222,8 @@ import Marquee from '../components/Marquee.astro';
 
   const errorModal = document.getElementById('error-modal');
   const closeErrorBtn = document.getElementById('close-error-modal');
+  const successModal = document.getElementById('success-modal');
+  const closeSuccessBtn = document.getElementById('close-success-modal');
   const turnstileTokenInput = document.getElementById('turnstile-token') as HTMLInputElement;
 
   function startHolding() {
@@ -226,6 +249,9 @@ import Marquee from '../components/Marquee.astro';
           const data = Object.fromEntries(formData.entries());
           
           try {
+            console.log("Starting transmission...");
+            submitText!.innerText = "TRANSMISSION...";
+            
             const response = await fetch('https://rayonis.app.n8n.cloud/webhook/e651b5aa-232f-4f0a-bc6a-3ebdaaccd28e', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
@@ -236,19 +262,38 @@ import Marquee from '../components/Marquee.astro';
               })
             });
 
+            console.log("Transmission response status:", response.status);
+
             if (!response.ok) throw new Error('Transmission failed');
             
             // Success State
+            console.log("Transmission successful, showing modal.");
             submitText!.innerText = "MISSION SENT!";
+            
+            if (successModal) {
+              successModal.classList.remove('hidden');
+              successModal.classList.add('flex');
+              successModal.style.display = 'flex';
+            }
+            
+            form.reset();
+            if (window.turnstile) window.turnstile.reset('#cf-turnstile');
           } catch (err) {
-            errorModal?.classList.remove('hidden');
-            errorModal?.classList.add('flex');
+            console.error("Transmission error:", err);
+            if (errorModal) {
+              errorModal.classList.remove('hidden');
+              errorModal.classList.add('flex');
+              errorModal.style.display = 'flex';
+            }
             stopHolding(false);
           }
         } else {
-          // Mission Failed Pop-up
-          errorModal?.classList.remove('hidden');
-          errorModal?.classList.add('flex');
+          console.warn("Form invalid or Turnstile missing.");
+          if (errorModal) {
+            errorModal.classList.remove('hidden');
+            errorModal.classList.add('flex');
+            errorModal.style.display = 'flex';
+          }
           stopHolding(false);
         }
       }
@@ -256,13 +301,30 @@ import Marquee from '../components/Marquee.astro';
   }
 
   function closeError() {
-    errorModal?.classList.add('hidden');
-    errorModal?.classList.remove('flex');
+    if (errorModal) {
+      errorModal.classList.add('hidden');
+      errorModal.classList.remove('flex');
+      errorModal.style.display = 'none';
+    }
+  }
+
+  function closeSuccess() {
+    if (successModal) {
+      successModal.classList.add('hidden');
+      successModal.classList.remove('flex');
+      successModal.style.display = 'none';
+    }
+    // Optionally redirect or reset button state
+    stopHolding(false); 
   }
 
   closeErrorBtn?.addEventListener('click', closeError);
+  closeSuccessBtn?.addEventListener('click', closeSuccess);
   window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeError();
+    if (e.key === 'Escape') {
+      closeError();
+      closeSuccess();
+    }
   });
 
   function stopHolding(success = false) {

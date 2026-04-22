@@ -15,11 +15,17 @@
   --border-width-thick: 8px;
 
   --animate-shake: shake 0.2s ease-in-out infinite;
+  --animate-slide-in: slide-in 0.4s cubic-bezier(0.19, 1, 0.22, 1) forwards;
 
   @keyframes shake {
     0%, 100% { transform: translateX(0); }
     25% { transform: translateX(-2px) translateY(-1px); }
     75% { transform: translateX(2px) translateY(1px); }
+  }
+
+  @keyframes slide-in {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
   }
 }
 

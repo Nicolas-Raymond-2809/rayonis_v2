@@ -104,7 +104,7 @@ export const missions: Mission[] = [
       { label: "Focus", value: "Visual Arts" },
       { label: "Outils", value: "Multimodaux" }
     ],
-    vibe: "Maîtrisez l'art du prompt. Apprenez à parler aux machines pour générer des images, des vidéos et des designs impossibles à créer à la main.",
+    vibe: "Maîtrisez l'art du prompt. Apprenez à parler aux machines pour générer des images et des designs impossibles à créer à la main.",
     program: [
       { id: "01", title: "Prompt Engineering", desc: "L'art de la commande précise et créative." },
       { id: "02", title: "Multi-modèles", desc: "Combiner Midjourney, Runway et ElevenLabs." },
