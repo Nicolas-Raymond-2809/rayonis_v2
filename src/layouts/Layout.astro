@@ -100,7 +100,7 @@ const {
 					</div>
 
 					<button id="close-manual" class="mt-8 w-full bg-main text-bg-arcade font-black py-3 border-4 border-black hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-brutal active:translate-x-0 active:translate-y-0 uppercase text-xs tracking-[0.2em]">
-						Reprendre la Mission
+						[A] Reprendre la Mission
 					</button>
 				</div>
 			</div>
@@ -238,7 +238,7 @@ const {
 
 			// Close on Escape or B key
 			window.addEventListener('keydown', (e) => {
-				if (e.key === 'Escape') {
+				if (e.key === 'Escape' || e.key.toLowerCase() === 'a') {
 					if (!manual?.classList.contains('hidden')) {
 						toggleManual();
 					}
