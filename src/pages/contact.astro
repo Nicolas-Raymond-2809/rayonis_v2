@@ -243,7 +243,6 @@ import Marquee from '../components/Marquee.astro';
       progress += UPDATE_INTERVAL;
       const percentage = Math.min((progress / HOLD_DURATION) * 100, 100);
       
-      // Use transform for better performance (avoids reflow)
       if (progressBar) {
         progressBar.style.transform = `scaleX(${percentage / 100})`;
         progressBar.style.transformOrigin = 'left';
@@ -251,50 +250,49 @@ import Marquee from '../components/Marquee.astro';
 
       if (progress >= HOLD_DURATION) {
         stopHolding(true);
-        const hasTurnstileToken = turnstileTokenInput?.value;
-        
-        if (form.checkValidity() && hasTurnstileToken) {
-          // Collect Form Data
-          const formData = new FormData(form);
-          const data = Object.fromEntries(formData.entries());
-          
-          try {
-            const response = await fetch('https://rayonis.app.n8n.cloud/webhook/e651b5aa-232f-4f0a-bc6a-3ebdaaccd28e', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                ...data,
-                submittedAt: new Date().toISOString(),
-                source: window.location.href
-              })
-            });
-
-            if (!response.ok) throw new Error('Transmission failed');
-            
-            // Success State
-            submitText!.innerText = "MISSION SENT!";
-            successModal?.classList.remove('hidden');
-            successModal?.classList.add('flex');
-            
-            // Reset Form
-            form.reset();
-            if (window.turnstile) {
-              window.turnstile.reset('#cf-turnstile');
-            }
-            stopHolding(true);
-          } catch (err) {
-            errorModal?.classList.remove('hidden');
-            errorModal?.classList.add('flex');
-            stopHolding(false);
-          }
-        } else {
-          // Mission Failed Pop-up
-          errorModal?.classList.remove('hidden');
-          errorModal?.classList.add('flex');
-          stopHolding(false);
-        }
+        handleTransmission();
       }
     }, UPDATE_INTERVAL);
+  }
+
+  async function handleTransmission() {
+    const hasTurnstileToken = turnstileTokenInput?.value;
+    
+    if (form.checkValidity() && hasTurnstileToken) {
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+      
+      try {
+        const response = await fetch('https://rayonis.app.n8n.cloud/webhook/e651b5aa-232f-4f0a-bc6a-3ebdaaccd28e', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            ...data,
+            submittedAt: new Date().toISOString(),
+            source: window.location.href
+          })
+        });
+
+        if (!response.ok) throw new Error('Transmission failed');
+        
+        submitText!.innerText = "MISSION SENT!";
+        successModal?.classList.remove('hidden');
+        successModal?.classList.add('flex');
+        
+        form.reset();
+        if (window.turnstile) {
+          window.turnstile.reset('#cf-turnstile');
+        }
+      } catch (err) {
+        errorModal?.classList.remove('hidden');
+        errorModal?.classList.add('flex');
+        stopHolding(false);
+      }
+    } else {
+      errorModal?.classList.remove('hidden');
+      errorModal?.classList.add('flex');
+      stopHolding(false);
+    }
   }
 
   function closeError() {
