@@ -151,7 +151,7 @@
       const isMenuOpen = menu && !menu.classList.contains('hidden');
 
       if (btn) {
-        btn.classList.add('scale-95', 'opacity-70');
+        btn.classList.add('is-pressed-dpad');
         
         if (isMenuOpen) {
           if (e.key === 'ArrowDown' || e.key === 'ArrowRight') (window as any).navigateArcadeFocus?.(1);
@@ -177,7 +177,7 @@
     const btnId = keyMap[e.key];
     if (btnId) {
       const btn = document.getElementById(btnId);
-      btn?.classList.remove('scale-95', 'opacity-70');
+      btn?.classList.remove('is-pressed-dpad');
     }
   });
 </script>

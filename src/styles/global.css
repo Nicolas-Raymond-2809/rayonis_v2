@@ -138,4 +138,15 @@
   .glitch-text {
     animation: glitch-text 0.3s infinite;
   }
+
+  /* Arcade Button Keyboard Press States */
+  .is-pressed-sanwa {
+    box-shadow: none !important;
+    transform: translateY(8px) !important;
+  }
+
+  .is-pressed-dpad {
+    box-shadow: none !important;
+    transform: translateY(6px) !important;
+  }
 }

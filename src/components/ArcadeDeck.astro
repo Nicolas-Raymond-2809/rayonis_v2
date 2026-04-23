@@ -89,12 +89,27 @@ import DPad from './DPad.astro';
   });
 
   // Global Keyboard Shortcuts for Deck Buttons
+  const deckKeyMap: Record<string, HTMLElement | null> = {
+    'c': contactTrigger,
+    'a': enterTrigger,
+    'b': escTrigger,
+    'm': menuTrigger,
+    'h': helpTrigger,
+    '?': helpTrigger
+  };
+
   window.addEventListener('keydown', (e) => {
     const active = document.activeElement;
     if (active?.tagName === 'INPUT' || active?.tagName === 'TEXTAREA') return;
 
     const key = e.key.toLowerCase();
     
+    // Visual feedback for deck buttons
+    const deckBtn = deckKeyMap[key];
+    if (deckBtn) {
+      deckBtn.classList.add('is-pressed-sanwa');
+    }
+
     // Priority: Try to find a button/link ON THE PAGE with this data-arcade-key
     // Excluding the elements already in ArcadeDeck (which have global IDs)
     const pageShortcut = document.querySelector(`#arcade-monitor-content [data-arcade-key="${key.toUpperCase()}"]`) as HTMLElement;
@@ -109,5 +124,13 @@ import DPad from './DPad.astro';
     if (key === 'b') escTrigger?.click();
     if (key === 'm') menuTrigger?.click();
     if (key === 'h' || key === '?') helpTrigger?.click();
+  });
+
+  window.addEventListener('keyup', (e) => {
+    const key = e.key.toLowerCase();
+    const deckBtn = deckKeyMap[key];
+    if (deckBtn) {
+      deckBtn.classList.remove('is-pressed-sanwa');
+    }
   });
 </script>
