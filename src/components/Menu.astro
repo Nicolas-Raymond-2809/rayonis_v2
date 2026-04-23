@@ -1,4 +1,5 @@
 ---
+import SanwaButton from './SanwaButton.astro';
 interface MenuItem {
   label: string;
   href: string;
@@ -59,9 +60,9 @@ const menuItems: MenuItem[] = [
           Arcade OS v2.0<br/>
           Édition Cyber-Pop
         </div>
-        <button id="close-menu" class="bg-alert text-white px-4 py-1.5 font-black uppercase text-[10px] border-4 border-black hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-brutal active:translate-x-0 active:translate-y-0 active:shadow-none">
-          Quitter
-        </button>
+        <div class="scale-75 origin-right">
+          <SanwaButton id="close-menu" text="Retour" btnKey="B" type="alert" />
+        </div>
       </div>
     </div>
   </div>
@@ -105,10 +106,10 @@ const menuItems: MenuItem[] = [
 
   // Global Escape Listener
   window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
+    if (e.key === 'Escape' || e.key.toLowerCase() === 'b') {
       if (!menu?.classList.contains('hidden')) {
         toggleMenu();
-      } else if (window.location.pathname !== '/') {
+      } else if (e.key === 'Escape' && window.location.pathname !== '/') {
         // If menu is closed and we are on a sub-page, go back to home
         window.location.href = '/';
       }
