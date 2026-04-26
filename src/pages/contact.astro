@@ -269,18 +269,24 @@ import Marquee from '../components/Marquee.astro';
       const data = Object.fromEntries(formData.entries());
       
       try {
+        // On utilise URLSearchParams pour envoyer les données comme un formulaire standard
+        // Cela évite la requête "Preflight" qui cause l'erreur CORS
+        const formDataApi = new URLSearchParams();
+        Object.keys(data).forEach(key => formDataApi.append(key, data[key] as string));
+        formDataApi.append('submittedAt', new Date().toISOString());
+        formDataApi.append('source', window.location.href);
+
         const response = await fetch('https://script.google.com/macros/s/AKfycby1M_mP3AzYFxY5hPh4zmscvqTufo8IlfZbXvPE1c0hJZCvt-5mIxuz52ZONSIypE-PHA/exec', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            ...data,
-            submittedAt: new Date().toISOString(),
-            source: window.location.href
-          })
+          mode: 'no-cors', // On passe en mode no-cors
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: formDataApi.toString()
         });
 
-        if (!response.ok) throw new Error('Transmission failed');
-        
+        // Note: En mode 'no-cors', la réponse sera toujours "opaque" (status 0).
+        // On considère que si la requête est partie, c'est un succès.
         submitText!.innerText = "MISSION SENT!";
         successModal?.classList.remove('hidden');
         successModal?.classList.add('flex');
