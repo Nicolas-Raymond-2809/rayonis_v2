@@ -209,41 +209,91 @@ import Marquee from '../components/Marquee.astro';
 </Layout>
 
 <script>
+  // On déclare la fonction de callback Turnstile sur l'objet window
+  // pour qu'elle soit accessible par le script externe de Cloudflare
+  (window as any).onloadTurnstileCallback = function() {
+    if ((window as any).turnstile) {
+      (window as any).turnstile.render('#cf-turnstile', {
+        sitekey: '0x4AAAAAACl3tUPuodmYxkyO',
+        callback: function(token: string) {
+          const input = document.getElementById('turnstile-token') as HTMLInputElement;
+          if (input) input.value = token;
+        },
+      });
+    }
+  };
+
   const form = document.querySelector('form') as HTMLFormElement;
   const submitBtn = document.getElementById('hp-submit-btn');
   const progressBar = document.getElementById('submit-progress');
   const submitText = document.getElementById('submit-text');
   const holdPrompt = document.getElementById('hold-prompt');
-  
+  const turnstileTokenInput = document.getElementById('turnstile-token') as HTMLInputElement;
+
+  const errorModal = document.getElementById('error-modal');
+  const successModal = document.getElementById('success-modal');
+
   let holdTimer: number | null = null;
   let progress = 0;
   const HOLD_DURATION = 2000;
   const UPDATE_INTERVAL = 20;
 
-  const errorModal = document.getElementById('error-modal');
-  const closeErrorBtn = document.getElementById('close-error-modal');
-  const successModal = document.getElementById('success-modal');
-  const closeSuccessBtn = document.getElementById('close-success-modal');
-  const turnstileTokenInput = document.getElementById('turnstile-token') as HTMLInputElement;
+  async function handleTransmission() {
+    const hasTurnstileToken = turnstileTokenInput?.value;
+    
+    if (form.checkValidity() && hasTurnstileToken) {
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+      
+      try {
+        // Préparation des données formatées pour Google Apps Script
+        const params = new URLSearchParams();
+        Object.keys(data).forEach(key => {
+          params.append(key, data[key] as string);
+        });
+        params.append('submittedAt', new Date().toISOString());
+        params.append('source', window.location.href);
+
+        // Envoi vers le Webhook Google
+        await fetch('https://script.google.com/macros/s/AKfycby1M_mP3AzYFxY5hPh4zmscvqTufo8IlfZbXvPE1c0hJZCvt-5mIxuz52ZONSIypE-PHA/exec', {
+          method: 'POST',
+          mode: 'no-cors', // Évite les erreurs CORS Preflight
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: params.toString()
+        });
+
+        // Succès (en mode no-cors, on ne peut pas lire le JSON de réponse, on assume le succès)
+        if (submitText) submitText.innerText = "MISSION SENT!";
+        successModal?.classList.remove('hidden');
+        successModal?.classList.add('flex');
+        
+        form.reset();
+        if ((window as any).turnstile) {
+          (window as any).turnstile.reset('#cf-turnstile');
+        }
+      } catch (err) {
+        console.error("Erreur de transmission :", err);
+        showError();
+      }
+    } else {
+      showError();
+    }
+  }
+
+  function showError() {
+    errorModal?.classList.remove('hidden');
+    errorModal?.classList.add('flex');
+    stopHolding(false);
+  }
 
   function startHolding() {
-    // Guard: Don't start if already holding or if a modal is open
-    if (holdTimer || 
-        (errorModal && !errorModal.classList.contains('hidden')) || 
-        (successModal && !successModal.classList.contains('hidden'))) {
-      return;
-    }
+    if (holdTimer || !errorModal?.classList.contains('hidden') || !successModal?.classList.contains('hidden')) return;
     
     progress = 0;
-    submitText!.innerText = "TRANSMISSION...";
-    holdPrompt!.classList.remove('opacity-0');
-    holdPrompt!.classList.add('opacity-100');
-    
-    // Reset bar color to magenta for the new attempt
-    if (progressBar) {
-      progressBar.classList.remove('bg-main');
-      progressBar.classList.add('bg-magenta/60');
-    }
+    if (submitText) submitText.innerText = "TRANSMISSION...";
+    holdPrompt?.classList.replace('opacity-0', 'opacity-100');
 
     holdTimer = window.setInterval(() => {
       progress += UPDATE_INTERVAL;
@@ -251,7 +301,6 @@ import Marquee from '../components/Marquee.astro';
       
       if (progressBar) {
         progressBar.style.transform = `scaleX(${percentage / 100})`;
-        progressBar.style.transformOrigin = 'left';
       }
 
       if (progress >= HOLD_DURATION) {
@@ -261,81 +310,6 @@ import Marquee from '../components/Marquee.astro';
     }, UPDATE_INTERVAL);
   }
 
-  async function handleTransmission() {
-    const hasTurnstileToken = (document.getElementById('turnstile-token') as HTMLInputElement)?.value;
-    
-    if (form.checkValidity() && hasTurnstileToken) {
-      const formData = new FormData(form);
-      const data = Object.fromEntries(formData.entries());
-      
-      try {
-        // Transformation des données pour Google (évite le CORS Preflight)
-        const params = new URLSearchParams();
-        for (const [key, value] of Object.entries(data)) {
-          params.append(key, value as string);
-        }
-        params.append('submittedAt', new Date().toISOString());
-        params.append('source', window.location.href);
-
-        // VOTRE URL GOOGLE APPS SCRIPT
-        await fetch('https://script.google.com/macros/s/AKfycby1M_mP3AzYFxY5hPh4zmscvqTufo8IlfZbXvPE1c0hJZCvt-5mIxuz52ZONSIypE-PHA/exec', {
-          method: 'POST',
-          mode: 'no-cors', // Très important pour Google Apps Script
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-          },
-          body: params.toString()
-        });
-
-        // En mode no-cors, on ne peut pas lire la réponse, 
-        // donc on considère que c'est envoyé si aucune erreur n'est levée.
-        submitText!.innerText = "MISSION SENT!";
-        successModal?.classList.remove('hidden');
-        successModal?.classList.add('flex');
-        
-        form.reset();
-        if (window.turnstile) {
-          window.turnstile.reset('#cf-turnstile');
-        }
-      } catch (err) {
-        console.error("Erreur d'envoi:", err);
-        errorModal?.classList.remove('hidden');
-        errorModal?.classList.add('flex');
-        stopHolding(false);
-      }
-    } else {
-      errorModal?.classList.remove('hidden');
-      errorModal?.classList.add('flex');
-      stopHolding(false);
-    }
-  }
-
-  function closeError() {
-    errorModal?.classList.add('hidden');
-    errorModal?.classList.remove('flex');
-  }
-
-  function closeSuccess() {
-    successModal?.classList.add('hidden');
-    successModal?.classList.remove('flex');
-    // Reset button state after closing success modal
-    stopHolding(false);
-  }
-
-  closeErrorBtn?.addEventListener('click', closeError);
-  closeSuccessBtn?.addEventListener('click', closeSuccess);
-  window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' || e.key.toLowerCase() === 'a') {
-      if (errorModal && !errorModal.classList.contains('hidden')) {
-        closeError();
-        e.preventDefault();
-      } else if (successModal && !successModal.classList.contains('hidden')) {
-        closeSuccess();
-        e.preventDefault();
-      }
-    }
-  });
-
   function stopHolding(success = false) {
     if (holdTimer) {
       clearInterval(holdTimer);
@@ -344,80 +318,32 @@ import Marquee from '../components/Marquee.astro';
     
     if (!success) {
       progress = 0;
-      if (progressBar) {
-        progressBar.style.transform = 'scaleX(0)';
-        progressBar.classList.remove('bg-main');
-        progressBar.classList.add('bg-magenta/60');
-      }
-      submitText!.innerText = "Maintenir [ENTER] pour envoyer";
-      holdPrompt!.classList.add('opacity-0');
-      holdPrompt!.classList.remove('opacity-100');
-    } else {
-      submitText!.innerText = "MISSION SENT!";
-      if (progressBar) {
-        progressBar.classList.remove('bg-magenta/60');
-        progressBar.classList.add('bg-main');
-      }
+      if (progressBar) progressBar.style.transform = 'scaleX(0)';
+      if (submitText) submitText.innerText = "Maintenir [ENTER] pour envoyer";
+      holdPrompt?.classList.replace('opacity-100', 'opacity-0');
     }
   }
 
-  // Intercept Form Submission (Standard Enter)
-  form?.addEventListener('submit', (e) => {
-    if (progress < HOLD_DURATION) {
-      e.preventDefault();
-    }
-  });
-
-  // Global Keyboard Handling
-  window.addEventListener('keydown', (e) => {
-    const menu = document.getElementById('arcade-menu');
-    const isMenuOpen = menu && !menu.classList.contains('hidden');
-    if (isMenuOpen) return; // Let the System Menu handle numeric inputs if it's open
-
-    const active = document.activeElement as HTMLElement;
-    const isInput = active?.tagName === 'INPUT' || active?.tagName === 'TEXTAREA' || active?.tagName === 'SELECT';
-
-    // 1. Numeric Selection (1-7)
-    if (!holdTimer && e.key >= '1' && e.key <= '7') {
-      // Only trigger if not already typing in a field (unless focused on button/body)
-      if (!isInput || active === submitBtn) {
-        const input = document.querySelector(`[data-arcade-input="${e.key}"]`) as HTMLElement;
-        if (input) {
-          e.preventDefault();
-          input.focus();
-        }
-      }
-    }
-
-    // 2. Hold to Submit (Enter)
-    if (e.key === 'Enter') {
-      // Stop browser from submitting immediately
-      e.preventDefault();
-      
-      // Global hold to submit on the contact page
-      startHolding();
-    }
-  });
-
-  window.addEventListener('keyup', (e) => {
-    if (e.key === 'Enter') {
-      stopHolding();
-    }
-  });
-
-  // Mouse/Touch Listeners for Button
+  // Event Listeners
   submitBtn?.addEventListener('mousedown', startHolding);
-  submitBtn?.addEventListener('mouseup', () => stopHolding());
-  submitBtn?.addEventListener('mouseleave', () => stopHolding());
+  window.addEventListener('mouseup', () => stopHolding());
   
-  submitBtn?.addEventListener('touchstart', (e) => {
-    e.preventDefault();
-    startHolding();
-  }, { passive: false });
-  submitBtn?.addEventListener('touchend', () => stopHolding());
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.repeat) startHolding();
+  });
+  window.addEventListener('keyup', (e) => {
+    if (e.key === 'Enter') stopHolding();
+  });
 
+  // Fermeture des modaux
+  document.getElementById('close-error-modal')?.addEventListener('click', () => {
+    errorModal?.classList.add('hidden');
+  });
+  document.getElementById('close-success-modal')?.addEventListener('click', () => {
+    successModal?.classList.add('hidden');
+    stopHolding(false);
+  });
 </script>
-
 <style>
   main {
     background-image: 
