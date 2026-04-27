@@ -126,18 +126,7 @@ import Marquee from '../components/Marquee.astro';
           <div id="cf-turnstile"></div>
           <input type="hidden" name="cf-turnstile-response" id="turnstile-token">
         </div>
-        <script>
-          window.onloadTurnstileCallback = function() {
-            window.turnstile.render('#cf-turnstile', {
-              sitekey: '0x4AAAAAACl3tUPuodmYxkyO',
-              callback: function(token: string) {
-                const input = document.getElementById('turnstile-token') as HTMLInputElement;
-                if (input) input.value = token;
-              },
-            });
-          }
-        </script>
-        <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback" async defer></script>
+        <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
         <!-- Submit Button -->
         <div class="relative group">
@@ -209,9 +198,8 @@ import Marquee from '../components/Marquee.astro';
 </Layout>
 
 <script>
-  // On déclare la fonction de callback Turnstile sur l'objet window
-  // pour qu'elle soit accessible par le script externe de Cloudflare
-  (window as any).onloadTurnstileCallback = function() {
+  // Initialisation manuelle de Turnstile pour éviter les erreurs de callback non trouvé
+  function initTurnstile() {
     if ((window as any).turnstile) {
       (window as any).turnstile.render('#cf-turnstile', {
         sitekey: '0x4AAAAAACl3tUPuodmYxkyO',
@@ -220,8 +208,11 @@ import Marquee from '../components/Marquee.astro';
           if (input) input.value = token;
         },
       });
+    } else {
+      setTimeout(initTurnstile, 100);
     }
-  };
+  }
+  initTurnstile();
 
   const form = document.querySelector('form') as HTMLFormElement;
   const submitBtn = document.getElementById('hp-submit-btn');

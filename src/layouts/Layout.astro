@@ -21,6 +21,17 @@ const {
 		<!-- Google tag (gtag.js) -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=G-TJL4QKTP5P"></script>
 		<script>
+		  // Trusted Types Fallback for 3rd party scripts
+		  if ((window as any).trustedTypes && (window as any).trustedTypes.createPolicy) {
+		    if (!(window as any).trustedTypes.defaultPolicy) {
+		      (window as any).trustedTypes.createPolicy('default', {
+		        createHTML: (string: string) => string,
+		        createScript: (string: string) => string,
+		        createScriptURL: (string: string) => string,
+		      });
+		    }
+		  }
+
 		  window.dataLayer = window.dataLayer || [];
 		  window.gtag = function(){window.dataLayer.push(arguments);}
 		  gtag('js', new Date());
