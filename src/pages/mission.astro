@@ -1,0 +1,116 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { missions } from '../data/missions';
+
+const pillars = [
+  {
+    title: "Éducation & Acculturation",
+    image: "/images/mission/education.png",
+    color: "alert",
+    desc: "Démystifier l'IA pour les générations futures et le milieu scolaire. Transformer la technologie en levier pédagogique.",
+    tags: ["Conférences", "Ateliers STEAM", "Tosa DigComp"]
+  },
+  {
+    title: "Orchestration & Productivité",
+    image: "/images/mission/orchestration.png",
+    color: "magenta",
+    desc: "Accompagner les pros dans l'automatisation intelligente. Passer de la théorie à la maîtrise technique avec le Vibe Coding.",
+    tags: ["n8n", "AI Pair Programming", "Vibe Marketing"]
+  },
+  {
+    title: "Design & Expérience",
+    image: "/images/mission/design.png",
+    color: "main",
+    desc: "Une approche Cyber-Pop unique. Allier esthétique arcade et rigueur UX pour des interfaces qui marquent les esprits.",
+    tags: ["Figma", "Blender 3D", "Design Systems"]
+  }
+];
+---
+
+<Layout title="Mission | Rayonis">
+	<main class="min-h-screen bg-slate-950 text-white pt-24 pb-12 px-4">
+		<div class="max-w-6xl mx-auto">
+			<!-- Hero Section -->
+			<section class="text-center mb-20">
+				<h1 class="text-5xl md:text-7xl font-black mb-6 bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent italic uppercase tracking-tighter">
+					L'Architecte du Futur Hybride
+				</h1>
+				<p class="text-xl md:text-2xl text-slate-400 max-w-3xl mx-auto leading-relaxed">
+					Rayonis a pour mission de guider l'humain dans l'orchestration de l'IA. 
+					Nous bâtissons des ponts entre créativité, stratégie et technologie pour décupler votre potentiel.
+				</p>
+			</section>
+
+			<!-- Les 3 Piliers -->
+			<div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-24">
+				{pillars.map(pillar => (
+					<div class={`p-8 rounded-3xl border-2 border-slate-800 bg-slate-900/50 hover:border-${pillar.color === 'main' ? 'cyan' : pillar.color === 'magenta' ? 'fuchsia' : 'orange'}-500 transition-all group`}>
+						<div class="mb-6 flex items-center">
+							<img 
+								src={pillar.image} 
+								alt={pillar.title} 
+								class="h-full w-auto object-contain group-hover:scale-110 transition-transform duration-300"
+							/>
+						</div>
+						<h3 class="text-2xl font-bold mb-4 italic uppercase">{pillar.title}</h3>
+						<p class="text-slate-400 mb-6 leading-relaxed">{pillar.desc}</p>
+						<div class="flex flex-wrap gap-2">
+							{pillar.tags.map(tag => (
+								<span class="text-xs font-mono px-2 py-1 bg-slate-800 rounded text-slate-300">{tag}</span>
+							))}
+						</div>
+					</div>
+				))}
+			</div>
+
+			<!-- Section Manifeste -->
+			<section class="bg-slate-900 rounded-3xl p-10 md:p-16 border border-slate-800 mb-20 relative overflow-hidden">
+				<div class="relative z-10">
+					<h2 class="text-3xl font-bold mb-8 italic uppercase">Le Manifeste du Vaisseau</h2>
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-12 text-lg text-slate-300 leading-relaxed">
+						<p>
+							Nous ne croyons pas à une IA qui remplace l'homme, mais à une <strong>IA qui l'augmente</strong>. 
+							Le "Vaisseau Rayonis" est un espace d'exploration où nous apprenons à piloter les modèles les plus puissants 
+							avec intention et éthique.
+						</p>
+						<p>
+							Que vous soyez un enseignant cherchant à protéger l'autonomie de ses élèves, ou un entrepreneur 
+							voulant automatiser sa croissance, notre mission est la même : vous donner les clés de l'orchestration.
+						</p>
+					</div>
+				</div>
+				<!-- Decorative element -->
+				<div class="absolute -right-20 -bottom-20 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl"></div>
+			</section>
+
+			<!-- CTA -->
+			<section class="text-center">
+				<h2 class="text-2xl font-bold mb-8 italic uppercase text-slate-400">Prêt à embarquer ?</h2>
+				<a 
+					href="/contact" 
+					id="contact-btn"
+					class="inline-flex flex-col items-center px-10 py-5 bg-main text-bg-arcade border-4 border-black shadow-brutal hover:bg-cyan-400 hover:translate-x-[-4px] hover:translate-y-[-4px] hover:shadow-[12px_12px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[4px_4px_0px_#000] transition-all font-black uppercase italic tracking-widest text-xl group"
+				>
+					<span class="text-[12px] tracking-[2px] font-[400] bg-black text-white px-2 py-0.5 mb-2 italic">[A]</span>
+					<span>Nous contacter</span>
+				</a>
+			</section>
+		</div>
+	</main>
+</Layout>
+
+<script>
+	// Keyboard shortcut for Contact Button
+	window.addEventListener('keydown', (e) => {
+		if (e.key.toLowerCase() === 'a' && !e.repeat) {
+			const contactBtn = document.getElementById('contact-btn');
+			if (contactBtn) {
+				// Visual feedback
+				contactBtn.classList.add('translate-y-1', 'shadow-none');
+				setTimeout(() => {
+					window.location.href = '/contact';
+				}, 100);
+			}
+		}
+	});
+</script>
