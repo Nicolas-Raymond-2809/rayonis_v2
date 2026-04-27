@@ -226,7 +226,7 @@ import Marquee from '../components/Marquee.astro';
 
   let holdTimer: number | null = null;
   let progress = 0;
-  const HOLD_DURATION = 2000;
+  const HOLD_DURATION = 1500; // Réduit à 1.5s pour plus de réactivité
   const UPDATE_INTERVAL = 20;
 
   async function handleTransmission() {
@@ -260,6 +260,7 @@ import Marquee from '../components/Marquee.astro';
         successModal?.classList.remove('hidden');
         successModal?.classList.add('flex');
         
+        // On ne reset le formulaire QUE si l'envoi est réussi
         form.reset();
         if ((window as any).turnstile) {
           (window as any).turnstile.reset('#cf-turnstile');
@@ -319,20 +320,51 @@ import Marquee from '../components/Marquee.astro';
   submitBtn?.addEventListener('mousedown', startHolding);
   window.addEventListener('mouseup', () => stopHolding());
   
+  // Fermeture des modaux
+  const closeError = () => {
+    errorModal?.classList.add('hidden');
+    errorModal?.classList.remove('flex');
+  };
+
+  const closeSuccess = () => {
+    successModal?.classList.add('hidden');
+    successModal?.classList.remove('flex');
+    stopHolding(false);
+  };
+
+  document.getElementById('close-error-modal')?.addEventListener('click', closeError);
+  document.getElementById('close-success-modal')?.addEventListener('click', closeSuccess);
+
+  // Raccourcis clavier globaux
   window.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && !e.repeat) startHolding();
-  });
-  window.addEventListener('keyup', (e) => {
-    if (e.key === 'Enter') stopHolding();
+    // 1. Touche Entrée pour le formulaire
+    if (e.key === 'Enter' && !e.repeat) {
+      // Si un modal est ouvert, Entrée ferme le modal
+      if (!errorModal?.classList.contains('hidden')) {
+        closeError();
+        e.preventDefault();
+      } else if (!successModal?.classList.contains('hidden')) {
+        closeSuccess();
+        e.preventDefault();
+      } else {
+        startHolding();
+      }
+    }
+
+    // 2. Touche 'A' ou 'Escape' pour les modaux
+    if (e.key.toLowerCase() === 'a' || e.key === 'Escape') {
+      if (!errorModal?.classList.contains('hidden')) {
+        closeError();
+        e.preventDefault();
+      } else if (!successModal?.classList.contains('hidden')) {
+        closeSuccess();
+        e.preventDefault();
+      }
+    }
   });
 
-  // Fermeture des modaux
-  document.getElementById('close-error-modal')?.addEventListener('click', () => {
-    errorModal?.classList.add('hidden');
-  });
-  document.getElementById('close-success-modal')?.addEventListener('click', () => {
-    successModal?.classList.add('hidden');
-    stopHolding(false);
+  window.addEventListener('keyup', (e) => {
+    if (e.key === 'Enter') stopHolding();
   });
 </script>
 <style>
